@@ -1,0 +1,27 @@
+header {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.header-buttons {
+  width: 100%;
+}
+
+.header-icons {
+  align-items: center;
+  background-color: #FCDC35;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.search-button {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+}
