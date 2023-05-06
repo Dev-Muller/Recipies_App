@@ -4,7 +4,7 @@ import Footer from '../components/footer/Footer';
 
 function Profile() {
   return (
-    <div>
+    <div className="header-icons">
       <Header
         title="Profile"
       />

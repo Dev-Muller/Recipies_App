@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
+import './login.css';
 import { Link } from 'react-router-dom';
-import AppContext from '../context/AppContext';
+import AppContext from '../../context/AppContext';
 
 function Login() {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -40,38 +40,43 @@ function Login() {
   };
 
   return (
-    <div>
-      <label>
-        Email:
+    <div className="login-body">
+      <div className="login-container">
+        <label htmlFor="email">
+          Email:
+        </label>
         <input
+          id="email"
           name="email"
           value={ login.email }
           type="email"
           data-testid="email-input"
           onChange={ ({ target }) => handleChange(setLogin, target) }
         />
-      </label>
-      <label>
-        Password:
+
+        <label htmlFor="password">
+          Password:
+        </label>
         <input
+          id="password"
           name="password"
           value={ login.password }
           type="password"
           data-testid="password-input"
           onChange={ ({ target }) => handleChange(setLogin, target) }
         />
-      </label>
 
-      <Link to="/meals">
-        <button
-          data-testid="login-submit-btn"
-          disabled={ isDisabled }
-          onClick={ () => handleClick(login.email) }
-        >
-          Enter
+        <Link to="/meals">
+          <button
+            data-testid="login-submit-btn"
+            disabled={ isDisabled }
+            onClick={ () => handleClick(login.email) }
+          >
+            Enter
 
-        </button>
-      </Link>
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

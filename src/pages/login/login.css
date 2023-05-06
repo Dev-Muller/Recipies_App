@@ -1,0 +1,25 @@
+.login-body {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  background-color: #FCDC35;
+  height: 100vh;
+}
+
+.login-container {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  background-color: #FCDC35;
+  height: 200px;
+}
+
+.login-body input {
+  width: 200px;
+}
+
+.login-body button {
+  width: 200px;
+}
