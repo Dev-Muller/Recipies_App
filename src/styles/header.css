@@ -1,9 +1,9 @@
 header {
   align-items: center;
+  background-color: #FCDC35;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: red;
 }
