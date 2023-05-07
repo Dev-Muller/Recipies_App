@@ -1,0 +1,27 @@
+.foods-link {
+  text-decoration: none;
+}
+
+.foods-container {
+  margin: 100px auto;
+  align-items: flex-start;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  background-color: rgba(255, 232, 105, 0.308);
+  width: 90%;
+  z-index: -1;
+}
+
+.foods-board {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  margin: 10px;
+  width: 150px;
+}
+
+.foods-card-p {
+  color: black;
+}

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import AppContext from './AppContext';
 
@@ -8,6 +8,15 @@ function AppProvider({ children }) {
     password: '',
   });
   const [apiData, setApiData] = useState([]);
+
+  useEffect(() => {
+    const verifyApiData = () => {
+      if (apiData === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
+    };
+    verifyApiData();
+  });
 
   const fetchMealsApi = async (radio, searchElement) => {
     let URL = '';
@@ -49,13 +58,32 @@ function AppProvider({ children }) {
     setApiData(result.drinks);
   };
 
+  const fetchFullMeal = useCallback(async (type, id) => {
+    let URL = '';
+    switch (type) {
+    case 'meals':
+      URL = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+      break;
+    case 'drinks':
+      URL = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+      break;
+    default:
+      break;
+    }
+    const response = await fetch(URL);
+    const result = response.json();
+    if (type === 'meals') { apiData(result.meals); }
+    if (type === 'drinks') { apiData(result.drinks); }
+  }, [apiData]);
+
   const values = useMemo(() => ({
     apiData,
     login,
     setLogin,
+    fetchFullMeal,
     fetchMealsApi,
     fetchDrinksApi,
-  }), [login, apiData]);
+  }), [login, apiData, fetchFullMeal]);
 
   return (
     <AppContext.Provider value={ values }>

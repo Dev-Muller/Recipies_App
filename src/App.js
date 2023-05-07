@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/login/Login';
 
-import Meals from './pages/Meals';
+import Meals from './pages/meals&drinks/Meals';
 import DoneRecipes from './pages/DoneRecipes';
-import Drinks from './pages/Drinks';
+import Drinks from './pages/meals&drinks/Drinks';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Profile from './pages/profile/Profile';
 
@@ -15,7 +15,7 @@ function App() {
     <div>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/meals" component={ Meals } />
+        <Route exact path="/meals" component={ Meals } />
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/drinks" component={ Drinks } />
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
