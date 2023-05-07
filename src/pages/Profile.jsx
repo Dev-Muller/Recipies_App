@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Header from '../components/header/Header';
+import Footer from '../components/footer/Footer';
 
 function Profile() {
   const [email, setEmail] = useState('');
@@ -19,8 +20,12 @@ function Profile() {
   };
 
   return (
-    <>
-      <Header title="Profile" />
+  <>
+    <div className="header-icons">
+      <Header
+        title="Profile"
+      />
+    </div>
       <div>
 
         <p data-testid="profile-email">
@@ -38,7 +43,7 @@ function Profile() {
         <button data-testid="profile-logout-btn" onClick={ handleLogout }>
           Logout
         </button>
-
+        <Footer />
       </div>
     </>
   );

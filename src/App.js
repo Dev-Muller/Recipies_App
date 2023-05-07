@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
+import Login from './pages/login/Login';
 
 import Meals from './pages/Meals';
 import DoneRecipes from './pages/DoneRecipes';
