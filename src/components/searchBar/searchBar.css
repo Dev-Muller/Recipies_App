@@ -1,11 +1,11 @@
 .search-bar-container {
-  position: absolute;
-  top: 80px;
   align-items: center;
   display: flex;
   flex-flow: column;
   height: 150px;
   justify-content: space-around;
+  position: absolute;
+  top: 80px;
   width: 95%;
 }
 
@@ -38,5 +38,5 @@
 
 .search-bar-container button:active {
   background-color: #5c23b3;
-  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.596);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.596);
 }

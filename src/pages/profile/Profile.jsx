@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import Header from '../components/header/Header';
-import Footer from '../components/footer/Footer';
+import Header from '../../components/header/Header';
+import Footer from '../../components/footer/Footer';
+import './profile.css';
 
 function Profile() {
   const [email, setEmail] = useState('');
@@ -20,32 +21,32 @@ function Profile() {
   };
 
   return (
-  <>
-    <div className="header-icons">
-      <Header
-        title="Profile"
-      />
-    </div>
+    <div className="profile-body">
+      <div className="header-icons">
+        <Header title="Profile" />
+      </div>
       <div>
-
         <p data-testid="profile-email">
           {email}
         </p>
+        <Link to="/done-recipes">
+          <button data-testid="profile-done-btn">
+            Done Recipes
+          </button>
+        </Link>
 
-        <button data-testid="profile-done-btn">
-          <Link to="/done-recipes">Done Recipes</Link>
-        </button>
-
-        <button data-testid="profile-favorite-btn">
-          <Link to="/favorite-recipes">Favorite Recipes</Link>
-        </button>
+        <Link to="/favorite-recipes">
+          <button data-testid="profile-favorite-btn">
+            Favorite Recipes
+          </button>
+        </Link>
 
         <button data-testid="profile-logout-btn" onClick={ handleLogout }>
           Logout
         </button>
         <Footer />
       </div>
-    </>
+    </div>
   );
 }
 
