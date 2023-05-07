@@ -1,12 +1,12 @@
 header {
   align-items: center;
+  background-color: #fcdc35;
   display: flex;
   flex-flow: column;
   justify-content: space-evenly;
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #FCDC35;
 }
 
 .header-buttons {
@@ -15,7 +15,7 @@ header {
 
 .header-icons {
   align-items: center;
-  background-color: #FCDC35;
+  background-color: #fcdc35;
   display: flex;
   flex-flow: row;
   justify-content: space-around;

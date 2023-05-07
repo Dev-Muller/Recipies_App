@@ -1,19 +1,19 @@
 .login-body {
   align-items: center;
+  background-color: #fcdc35;
   display: flex;
   flex-flow: column;
-  justify-content: space-around;
-  background-color: #FCDC35;
   height: 100vh;
+  justify-content: space-around;
 }
 
 .login-container {
   align-items: center;
+  background-color: #fcdc35;
   display: flex;
   flex-flow: column;
-  justify-content: space-around;
-  background-color: #FCDC35;
   height: 200px;
+  justify-content: space-around;
 }
 
 .login-body input {

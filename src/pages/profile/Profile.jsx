@@ -46,7 +46,6 @@ function Profile() {
         </button>
         <Footer />
       </div>
-      <button>teste</button>
     </div>
   );
 }
