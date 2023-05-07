@@ -6,12 +6,13 @@
   flex-flow: column;
   height: 150px;
   justify-content: space-around;
+  width: 95%;
 }
 
 .input-search {
   border-radius: 5px;
   height: 45px;
-  width: 300px;
+  width: 90%;
 }
 
 .radios {
@@ -19,7 +20,11 @@
   display: flex;
   flex-flow: row;
   justify-content: space-evenly;
-  width: 200px;
+  width: 80%;
+}
+
+.radios label {
+  font-size: 12px;
 }
 
 .search-bar-container button {
@@ -28,7 +33,7 @@
   border-radius: 5px;
   box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.596);
   height: 45px;
-  width: 200px;
+  width: 70%;
 }
 
 .search-bar-container button:active {
