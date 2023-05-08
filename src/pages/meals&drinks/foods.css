@@ -1,27 +1,67 @@
+body {
+  background-image: url('../../images/purple.jpg');
+}
+
+.foods-filters {
+  align-items: center;
+  display: flex;
+  height: 60px;
+  justify-content: space-evenly;
+  margin-top: 180px;
+  width: 100%;
+  z-index: -1;
+}
+
+.filter-button {
+  background-color: rgba(255, 255, 255, 0.089);
+  border: 2px solid #fcdc35;
+  border-radius: 500px;
+  box-shadow: 1px 1px 5px 1px rgba(255, 255, 255, 0.589);
+  color: #fcdc35;
+  font-size: 10px;
+  font-weight: 700;
+  height: 60px;
+  width: 60px;
+}
+
+.filter-button:active {
+  background-color: rgba(255, 255, 255, 0.116);
+  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.178);
+}
+
 .foods-link {
   text-decoration: none;
 }
 
 .foods-container {
-  margin: 100px auto;
   align-items: flex-start;
+  background-color: rgba(241, 241, 241, 0.089);
+  border-radius: 10px;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
-  background-color: rgba(255, 232, 105, 0.308);
+  margin: 50px auto;
+  padding: 20px;
   width: 90%;
-  z-index: -1;
 }
 
 .foods-board {
-  align-items: center;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  margin: 10px;
-  width: 150px;
+  height: 150px;
+  margin: 5px;
+  text-align: center;
+  width: 120px;
+}
+
+.foods-img {
+  border-radius: 10px;
 }
 
 .foods-card-p {
-  color: black;
+  color: white;
+  font-size: 70%;
+  font-weight: 700;
+}
+
+.foods-container-off {
+  display: none;
 }

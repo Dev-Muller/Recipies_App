@@ -29,7 +29,7 @@ function Meals() {
     <div className="foods-body">
       <Header title="Meals" />
       <Recipes data={ apiData } />
-      <div className="foods-container">
+      <div className={ !isClicked ? 'foods-container-off' : 'foods-container' }>
         {isClicked && apiData?.slice(0, limit).map((meal, index) => (
           <Link
             className="foods-link"
@@ -41,9 +41,10 @@ function Meals() {
               data-testid={ `${index}-recipe-card` }
             >
               <img
+                className="foods-img"
                 data-testid={ `${index}-card-img` }
-                height="150"
-                width="150"
+                height="120"
+                width="120"
                 src={ meal.strMealThumb }
                 alt={ meal.strMeal }
               />

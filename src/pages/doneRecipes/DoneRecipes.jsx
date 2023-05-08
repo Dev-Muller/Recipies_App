@@ -5,9 +5,7 @@ import Footer from '../../components/footer/Footer';
 function DoneRecipes() {
   return (
     <div>
-      <Header
-        title="Done Recipes"
-      />
+      <Header title="Done Recipes" />
       <Footer />
     </div>
   );
