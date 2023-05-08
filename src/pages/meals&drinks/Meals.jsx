@@ -4,10 +4,15 @@ import { Link, useHistory } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import AppContext from '../../context/AppContext';
+import Recipes from '../../components/recipes/Recipes';
 
 function Meals() {
-  const { apiData } = useContext(AppContext);
+  const { isClicked, setIsClicked, apiData } = useContext(AppContext);
   const history = useHistory();
+
+  useEffect(() => {
+    setIsClicked(false);
+  });
 
   useEffect(() => {
     const verifyApiData = () => {
@@ -17,20 +22,23 @@ function Meals() {
     };
     verifyApiData();
   }, [apiData, history]);
+
   const limit = 12;
+
   return (
     <div className="foods-body">
       <Header title="Meals" />
+      <Recipes data={ apiData } />
       <div className="foods-container">
-        {apiData?.slice(0, limit).map((meal, index) => (
+        {isClicked && apiData?.slice(0, limit).map((meal, index) => (
           <Link
             className="foods-link"
             to={ `/meals/:${meal.idMeal}` }
             key={ index }
           >
             <div
-              data-testid={ `${index}-recipe-card` }
               className="foods-board"
+              data-testid={ `${index}-recipe-card` }
             >
               <img
                 data-testid={ `${index}-card-img` }

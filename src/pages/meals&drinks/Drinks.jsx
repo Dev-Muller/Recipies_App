@@ -4,10 +4,15 @@ import { Link, useHistory } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import AppContext from '../../context/AppContext';
+import Recipes from '../../components/recipes/Recipes';
 
 function Drinks() {
-  const { apiData } = useContext(AppContext);
+  const { isClicked, setIsClicked, apiData } = useContext(AppContext);
   const history = useHistory();
+
+  useEffect(() => {
+    setIsClicked(false);
+  });
 
   useEffect(() => {
     const verifyApiData = () => {
@@ -17,12 +22,15 @@ function Drinks() {
     };
     verifyApiData();
   }, [apiData, history]);
+
   const limit = 12;
+
   return (
     <div className="foods-body">
       <Header title="Drinks" />
+      <Recipes data={ apiData } />
       <div className="foods-container">
-        {apiData?.slice(0, limit).map((drink, index) => (
+        {isClicked && apiData?.slice(0, limit).map((drink, index) => (
           <Link
             className="foods-link"
             to={ `/drinks/:${drink.idDrink}` }

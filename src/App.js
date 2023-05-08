@@ -4,10 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/login/Login';
 
-import Meals from './pages/meals&drinks/Meals';
-import DoneRecipes from './pages/DoneRecipes';
+import FavoriteRecipes from './pages/favoriteRecipes/FavoriteRecipes';
+import DoneRecipes from './pages/doneRecipes/DoneRecipes';
 import Drinks from './pages/meals&drinks/Drinks';
-import FavoriteRecipes from './pages/FavoriteRecipes';
+import Meals from './pages/meals&drinks/Meals';
 import Profile from './pages/profile/Profile';
 
 function App() {
