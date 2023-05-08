@@ -1,5 +1,5 @@
 body {
-  background-image: url('../../images/purple.jpg');
+  background-color: #41197f;
 }
 
 .foods-filters {
@@ -7,7 +7,7 @@ body {
   display: flex;
   height: 60px;
   justify-content: space-evenly;
-  margin-top: 180px;
+  margin-top: 40px; /* Aumentar para não ficar sobreposto */
   width: 100%;
   z-index: -1;
 }
@@ -42,14 +42,14 @@ body {
   justify-content: space-evenly;
   margin: 50px auto;
   padding: 20px;
-  width: 90%;
+  width: 100%;
 }
 
 .foods-board {
   height: 150px;
-  margin: 5px;
+  margin: 10px;
   text-align: center;
-  width: 120px;
+  width: 150px;
 }
 
 .foods-img {

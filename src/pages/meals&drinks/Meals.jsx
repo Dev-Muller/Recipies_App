@@ -7,7 +7,7 @@ import AppContext from '../../context/AppContext';
 import Recipes from '../../components/recipes/Recipes';
 
 function Meals() {
-  const { isClicked, setIsClicked, apiData } = useContext(AppContext);
+  const { isClicked, isFiltered, setIsClicked, apiData } = useContext(AppContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -16,12 +16,12 @@ function Meals() {
 
   useEffect(() => {
     const verifyApiData = () => {
-      if (apiData?.length === 1) {
+      if (apiData?.length === 1 && !isFiltered) {
         history.push(`/meals/${apiData[0].idMeal}`);
       }
     };
     verifyApiData();
-  }, [apiData, history]);
+  }, [apiData, history, isFiltered]);
 
   const limit = 12;
 

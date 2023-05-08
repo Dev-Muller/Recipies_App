@@ -32,18 +32,29 @@ function Profile() {
         </p>
         <div className="profile-buttons">
           <Link to="/done-recipes">
-            <button data-testid="profile-done-btn">
+            <button
+              className="profile-button"
+              data-testid="profile-done-btn"
+            >
               Done Recipes
             </button>
           </Link>
 
           <Link to="/favorite-recipes">
-            <button data-testid="profile-favorite-btn">
+            <button
+              className="profile-button"
+              data-testid="profile-favorite-btn"
+            >
+
               Favorite Recipes
             </button>
           </Link>
 
-          <button data-testid="profile-logout-btn" onClick={ handleLogout }>
+          <button
+            className="profile-button"
+            data-testid="profile-logout-btn"
+            onClick={ handleLogout }
+          >
             Logout
           </button>
         </div>

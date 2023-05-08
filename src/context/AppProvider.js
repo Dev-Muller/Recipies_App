@@ -9,7 +9,9 @@ function AppProvider({ children }) {
   });
   const [apiData, setApiData] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
   const [apiType, setApiType] = useState('');
+  const [apiCategory, setApiCategory] = useState('');
 
   useEffect(() => {
     const verifyApiData = () => {
@@ -25,11 +27,15 @@ function AppProvider({ children }) {
     apiData,
     apiType,
     isClicked,
+    apiCategory,
+    isFiltered,
     setLogin,
     setApiData,
     setApiType,
     setIsClicked,
-  }), [login, apiType, apiData, isClicked]);
+    setApiCategory,
+    setIsFiltered,
+  }), [login, apiType, apiData, isClicked, apiCategory, isFiltered]);
 
   return (
     <AppContext.Provider value={ values }>
