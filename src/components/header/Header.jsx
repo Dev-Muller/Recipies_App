@@ -49,7 +49,10 @@ function Header({ title }) {
           </div>
         )}
       </div>
-      <h1 data-testid="page-title">
+      <h1
+        className="header-title"
+        data-testid="page-title"
+      >
         { title }
       </h1>
       {isOpenMenu && <SearchBar />}

@@ -1,12 +1,21 @@
 header {
   align-items: center;
-  background-color: #fcdc35;
+  backdrop-filter: blur(3px);
+  background-color: rgba(145, 145, 145, 0.274);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   display: flex;
   flex-flow: column;
   justify-content: space-evenly;
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+.header-title {
+  color: white;
+  margin: 20px;
+  text-shadow: 2px 2px 2px black;
 }
 
 .header-buttons {
@@ -16,8 +25,10 @@ header {
 .header-icons {
   align-items: center;
   background-color: #fcdc35;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.404);
   display: flex;
   flex-flow: row;
+  height: 50px;
   justify-content: space-around;
   width: 100%;
 }
