@@ -8,8 +8,6 @@ import App from '../App';
 import AppProvider from '../context/AppProvider';
 import { drinks } from '../../cypress/mocks/drinks';
 import { meals } from '../../cypress/mocks/meals';
-// import Meals from '../pages/meals&drinks/Meals';
-// import Drinks from '../pages/meals&drinks/Drinks';
 
 const profilePictureId = 'profile-top-btn';
 const searchBtnId = 'search-top-btn';
@@ -33,7 +31,9 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/meals');
+    act(() => {
+      history.push('/meals');
+    });
 
     const profilePicture = await screen.findByTestId(profilePictureId);
     const searchBtn = await screen.findByTestId(searchBtnId);
@@ -53,7 +53,9 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/drinks');
+    act(() => {
+      history.push('/drinks');
+    });
 
     const profilePicture = await screen.findByTestId(profilePictureId);
     const searchBtn = await screen.findByTestId(searchBtnId);
@@ -73,7 +75,9 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/meals/52977');
+    act(() => {
+      history.push('/meals/52977');
+    });
 
     const profilePicture = screen.queryByTestId(profilePictureId);
     const searchBtn = screen.queryByTestId(searchBtnId);
@@ -93,7 +97,9 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/drinks/15997');
+    act(() => {
+      history.push('/drinks/15997');
+    });
 
     const profilePicture = screen.queryByTestId(profilePictureId);
     const searchBtn = screen.queryByTestId(searchBtnId);
@@ -113,7 +119,9 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/meals/52977/in-progress');
+    act(() => {
+      history.push('/meals/52977/in-progress');
+    });
 
     const profilePicture = screen.queryByTestId(profilePictureId);
     const searchBtn = screen.queryByTestId(searchBtnId);
@@ -133,11 +141,13 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/drinks/15997/in-progress');
+    act(() => {
+      history.push('/drinks/15997/in-progress');
+    });
 
-    const profilePicture = screen.getByTestId(profilePictureId);
-    const searchBtn = screen.getByTestId(searchBtnId);
-    const pageTitle = screen.getByTestId(pageTitleId);
+    const profilePicture = screen.queryByTestId(profilePictureId);
+    const searchBtn = screen.queryByTestId(searchBtnId);
+    const pageTitle = screen.queryByTestId(pageTitleId);
 
     expect(profilePicture).not.toBeInTheDocument();
     expect(searchBtn).not.toBeInTheDocument();
@@ -153,7 +163,9 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/profile');
+    act(() => {
+      history.push('/profile');
+    });
 
     const profilePicture = await screen.findByTestId(profilePictureId);
     const searchBtn = screen.queryByTestId(searchBtnId);
@@ -173,7 +185,9 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/done-recipes');
+    act(() => {
+      history.push('/done-recipes');
+    });
 
     const profilePicture = await screen.findByTestId(profilePictureId);
     const searchBtn = screen.queryByTestId(searchBtnId);
@@ -193,7 +207,9 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/favorite-recipes');
+    act(() => {
+      history.push('/favorite-recipes');
+    });
 
     const profilePicture = await screen.findByTestId(profilePictureId);
     const searchBtn = screen.queryByTestId(searchBtnId);
@@ -213,7 +229,9 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/meals');
+    act(() => {
+      history.push('/meals');
+    });
 
     const profilePicture = await screen.findByTestId(profilePictureId);
 
@@ -233,7 +251,9 @@ describe('Testes component Header', () => {
         </AppProvider>
       </Router>,
     );
-    history.push('/meals');
+    act(() => {
+      history.push('/meals');
+    });
 
     const searchBtn = await screen.findByTestId(searchBtnId);
 
