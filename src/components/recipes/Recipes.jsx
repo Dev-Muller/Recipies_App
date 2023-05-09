@@ -10,8 +10,10 @@ import FilterButton from '../filterButtons/FilterButton';
 
 function Recipes({ data }) {
   const [categories, setCategories] = useState([]);
+  const [prevTarget, setPrevTarget] = useState('');
   const history = useHistory();
-  const { apiType,
+  const {
+    apiType,
     isClicked,
     isFiltered,
     setApiType,
@@ -52,6 +54,20 @@ function Recipes({ data }) {
     runFetch();
   }, [history.location.pathname, setApiType, setApiData, apiCategory, isFiltered]);
 
+  const handleAll = () => {
+    setIsFiltered(false);
+  };
+
+  const handleClick = (target) => {
+    if (prevTarget !== target.innerText) {
+      setIsFiltered(true);
+      setPrevTarget(target.innerText);
+    } else {
+      setIsFiltered(false);
+      setPrevTarget(target.innerText);
+    }
+  };
+
   const limit = 12;
   const catLimit = 5;
 
@@ -61,15 +77,17 @@ function Recipes({ data }) {
         <button
           className="filter-button"
           data-testid="All-category-filter"
-          onClick={ () => setIsFiltered(false) }
+          onClick={ handleAll }
         >
           All
         </button>
         {categories.slice(0, catLimit).map((category, index) => (
           <FilterButton
             key={ index }
+            className={ isFiltered ? 'filter-button-on' : 'filter-button' }
             innerText={ category.strCategory }
             categoryName={ category.strCategory }
+            action={ handleClick }
           />
         ))}
       </div>
@@ -77,7 +95,7 @@ function Recipes({ data }) {
         {!isClicked && data?.slice(0, limit).map((recipe, index) => (
           <Link
             className="foods-link"
-            to="/"
+            to={ `/${apiType.toLowerCase()}s/${recipe[`id${apiType}`]}` }
             key={ index }
           >
             <div

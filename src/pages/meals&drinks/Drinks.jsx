@@ -17,7 +17,7 @@ function Drinks() {
   useEffect(() => {
     const verifyApiData = () => {
       if (apiData?.length === 1 && !isFiltered) {
-        history.push(`/drinks/${apiData[0].idDrink}`);
+        history.push(`drinks/${apiData[0].idDrink}`);
       }
     };
     verifyApiData();

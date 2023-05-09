@@ -2,33 +2,6 @@ body {
   background-color: #41197f;
 }
 
-.foods-filters {
-  align-items: center;
-  display: flex;
-  height: 60px;
-  justify-content: space-evenly;
-  margin-top: 40px; /* Aumentar para não ficar sobreposto */
-  width: 100%;
-  z-index: -1;
-}
-
-.filter-button {
-  background-color: rgba(255, 255, 255, 0.089);
-  border: 2px solid #fcdc35;
-  border-radius: 500px;
-  box-shadow: 1px 1px 5px 1px rgba(255, 255, 255, 0.589);
-  color: #fcdc35;
-  font-size: 10px;
-  font-weight: 700;
-  height: 60px;
-  width: 60px;
-}
-
-.filter-button:active {
-  background-color: rgba(255, 255, 255, 0.116);
-  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.178);
-}
-
 .foods-link {
   text-decoration: none;
 }
