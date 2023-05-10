@@ -4,6 +4,7 @@ import { fetchById } from '../../services/fetchs_functions';
 import AppContext from '../../context/AppContext';
 import Recomended from '../recomended/Recomended';
 import './recipeDetails.css';
+import StartRecipeButton from '../recipeButton/StartRecipeButton';
 
 function RecipeDetails() {
   const { apiType, setApiType } = useContext(AppContext);
@@ -141,6 +142,7 @@ function RecipeDetails() {
           <Recomended />
         </div>
       ))}
+      <StartRecipeButton />
     </div>
   );
 }
