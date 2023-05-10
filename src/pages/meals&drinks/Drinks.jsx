@@ -7,7 +7,12 @@ import AppContext from '../../context/AppContext';
 import Recipes from '../../components/recipes/Recipes';
 
 function Drinks() {
-  const { isClicked, isFiltered, setIsClicked, apiData } = useContext(AppContext);
+  const {
+    isClicked,
+    isFiltered,
+    setIsClicked,
+    apiData,
+  } = useContext(AppContext);
   const history = useHistory();
 
   useEffect(() => {

@@ -23,18 +23,22 @@ export const fetchById = async (type, id) => {
   let URL = '';
   switch (type) {
   case 'meals':
-    URL = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+    URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
     break;
   case 'drinks':
-    URL = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+    URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
     break;
   default:
     break;
   }
-  const response = await fetch(URL);
-  const result = response.json();
-  if (type === 'meals') return result.meals;
-  if (type === 'drinks') return result.drinks;
+  try {
+    const response = await fetch(URL);
+    const result = await response.json();
+    if (type === 'meals') return result.meals;
+    if (type === 'drinks') return result.drinks;
+  } catch (error) {
+    console.log('não obteve resposta');
+  }
 };
 
 export const fetchFullRecipe = async (type) => {
