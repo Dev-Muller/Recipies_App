@@ -1,38 +1,71 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './recipes.css';
 import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
-import { fetchCategories, fetchFullRecipe } from '../../services/fetchs_functions';
+import {
+  fetchCategories,
+  fetchFullRecipe,
+} from '../../services/fetchs_functions';
 import FilterButton from '../filterButtons/FilterButton';
 
 function Recipes({ data }) {
   const [categories, setCategories] = useState([]);
+  const [prevTarget, setPrevTarget] = useState('');
   const history = useHistory();
-  const { apiType, isClicked, setApiType, setApiData } = useContext(AppContext);
+  const {
+    apiType,
+    isClicked,
+    isFiltered,
+    setApiType,
+    setApiData,
+    apiCategory,
+    setIsFiltered,
+  } = useContext(AppContext);
 
   useEffect(() => {
     const runFetch = async () => {
       if (history.location.pathname === '/meals') {
-        const resultRecipe = await fetchFullRecipe('meals');
-        const resultCat = await fetchCategories('meals');
-        setApiType('Meal');
-        setApiData(resultRecipe);
-        setCategories(resultCat);
+        if (!isFiltered) {
+          const resultRecipe = await fetchFullRecipe('meals');
+          const resultCat = await fetchCategories('meals');
+          setApiType('Meal');
+          setApiData(resultRecipe);
+          setCategories(resultCat);
+        } else {
+          const resultCat = await fetchCategories('meals');
+          setApiType('Meal');
+          setCategories(resultCat);
+        }
       }
       if (history.location.pathname === '/drinks') {
-        const resultRecipe = await fetchFullRecipe('drinks');
-        const resultCat = await fetchCategories('drinks');
-        setApiType('Drink');
-        setApiData(resultRecipe);
-        setCategories(resultCat);
+        if (!isFiltered) {
+          const resultRecipe = await fetchFullRecipe('drinks');
+          const resultCat = await fetchCategories('drinks');
+          setApiType('Drink');
+          setApiData(resultRecipe);
+          setCategories(resultCat);
+        } else {
+          const resultCat = await fetchCategories('drinks');
+          setApiType('Drink');
+          setCategories(resultCat);
+        }
       }
     };
     runFetch();
-  }, [history.location.pathname, setApiType, setApiData]);
+  }, [history.location.pathname, setApiType, setApiData, apiCategory, isFiltered]);
 
-  const handleClick = () => {
-    console.log('clicou no filtro');
+  const handleAll = () => {
+    setIsFiltered(false);
+  };
+
+  const handleClick = (target) => {
+    if (prevTarget !== target.innerText) {
+      setIsFiltered(true);
+      setPrevTarget(target.innerText);
+    } else {
+      setIsFiltered(false);
+      setPrevTarget(target.innerText);
+    }
   };
 
   const limit = 12;
@@ -41,12 +74,20 @@ function Recipes({ data }) {
   return (
     <div className="foods-body">
       <div className="foods-filters">
+        <button
+          className="filter-button"
+          data-testid="All-category-filter"
+          onClick={ handleAll }
+        >
+          All
+        </button>
         {categories.slice(0, catLimit).map((category, index) => (
           <FilterButton
             key={ index }
+            className={ isFiltered ? 'filter-button-on' : 'filter-button' }
             innerText={ category.strCategory }
             categoryName={ category.strCategory }
-            handleClick={ handleClick }
+            action={ handleClick }
           />
         ))}
       </div>
@@ -54,7 +95,7 @@ function Recipes({ data }) {
         {!isClicked && data?.slice(0, limit).map((recipe, index) => (
           <Link
             className="foods-link"
-            to="/"
+            to={ `/${apiType.toLowerCase()}s/${recipe[`id${apiType}`]}` }
             key={ index }
           >
             <div
@@ -64,8 +105,8 @@ function Recipes({ data }) {
               <img
                 className="foods-img"
                 data-testid={ `${index}-card-img` }
-                height="120"
-                width="120"
+                height="150"
+                width="150"
                 src={ recipe[`str${apiType}Thumb`] }
                 alt={ recipe[`str${apiType}`] }
               />

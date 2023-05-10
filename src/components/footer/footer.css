@@ -1,10 +1,14 @@
 footer {
   align-items: center;
-  background-color: #41197f;
+  background-color: #270f4b;
   bottom: 0;
   box-shadow: -2px -2px 5px black;
   display: flex;
   justify-content: space-evenly;
   position: fixed;
   width: 100%;
+}
+
+.drink-icon {
+  color: white;
 }
