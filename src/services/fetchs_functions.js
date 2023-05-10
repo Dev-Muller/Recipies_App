@@ -31,14 +31,11 @@ export const fetchById = async (type, id) => {
   default:
     break;
   }
-  try {
-    const response = await fetch(URL);
-    const result = await response.json();
-    if (type === 'meals') return result.meals;
-    if (type === 'drinks') return result.drinks;
-  } catch (error) {
-    console.log('não obteve resposta');
-  }
+  const response = await fetch(URL);
+  const result = await response.json();
+  if (type === 'meals') return result.meals;
+  if (type === 'drinks') return result.drinks;
+  console.log('não obteve resposta');
 };
 
 export const fetchFullRecipe = async (type) => {
@@ -93,4 +90,22 @@ export const fetchCategoriesList = async (type, category) => {
   const result = await response.json();
   if (type === 'meals') return result.meals;
   if (type === 'drinks') return result.drinks;
+};
+
+export const fetchRecomendation = async (type) => {
+  let URL = '';
+  switch (type) {
+  case 'Meal':
+    URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    break;
+  case 'Drink':
+    URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+    break;
+  default:
+    break;
+  }
+  const response = await fetch(URL);
+  const result = await response.json();
+  if (type === 'Meal') return result.drinks;
+  if (type === 'Drink') return result.meals;
 };

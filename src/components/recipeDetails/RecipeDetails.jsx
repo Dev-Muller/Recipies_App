@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { fetchById } from '../../services/fetchs_functions';
-import './recipeDetails.css';
 import AppContext from '../../context/AppContext';
+import Recomended from '../recomended/Recomended';
+import './recipeDetails.css';
 
 function RecipeDetails() {
   const { apiType, setApiType } = useContext(AppContext);
@@ -10,8 +11,8 @@ function RecipeDetails() {
   const [recipe, setRecipe] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measureList, setMeasureList] = useState([]);
-  const [embed, setEmbed] = useState('');
   const [ingredientsAndMeasure, setIngredientsAndMeasure] = useState([]);
+  const [embed, setEmbed] = useState('');
 
   useEffect(() => {
     if (ingredientsList.length && measureList.length) {
@@ -45,7 +46,6 @@ function RecipeDetails() {
           item[0].startsWith('strIngredient')
         ));
         const ingredients = arrays.filter((item) => item[1]);
-        console.log(ingredients);
         setIngredientsList(ingredients);
       }
     };
@@ -57,7 +57,7 @@ function RecipeDetails() {
           item[0].startsWith('strMeasure')
         ));
         if (history.location.pathname.includes('meals')) {
-          const measures = arrays.filter((item) => item[1]);
+          const measures = arrays.filter((item) => item[1]); // esses ifs não precisam mais
           setMeasureList(measures);
         } if (history.location.pathname.includes('drinks')) {
           const measures = arrays.filter((item) => item[1]);
@@ -83,7 +83,7 @@ function RecipeDetails() {
     createIngredients();
     if (history.location.pathname.includes('/meals')
     && history.location.pathname !== '/meals/52968') { createYoutubeEmbed(); }
-  }, [recipe]);
+  }, [recipe, history.location.pathname]);
 
   return (
     <div className="details-body">
@@ -138,6 +138,7 @@ function RecipeDetails() {
               title="YouTube video player"
             />
           )}
+          <Recomended />
         </div>
       ))}
     </div>
