@@ -16,10 +16,12 @@ function SearchBar() {
       global.alert('Your search must have only 1 (one) character');
     }
     if (history.location.pathname === '/meals') {
+      console.log('Olá', searchElement);
       const data = await fetchApi(radio, 'themealdb', searchElement);
       setApiData(data);
     }
     if (history.location.pathname === '/drinks') {
+      // console.log('Oiá', searchElement);
       const data = await fetchApi(radio, 'thecocktaildb', searchElement);
       setApiData(data);
     }

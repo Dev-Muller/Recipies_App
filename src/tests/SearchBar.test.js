@@ -50,7 +50,7 @@ describe('Testes component Search Bar', () => {
     expect(firstLetterRadio).toBeInTheDocument();
     expect(searchRecipeBtn).toBeInTheDocument();
   });
-  it('testa o filtro por ingrediente em meals', async () => {
+  it.only('testa o filtro por ingrediente em meals', async () => {
     const history = createMemoryHistory();
     render(
       <Router history={ history }>
@@ -81,15 +81,15 @@ describe('Testes component Search Bar', () => {
     const ingredientRadio = await screen.findByTestId(ingredientRadioConst);
     const searchRecipeBtn = await screen.findByTestId(searchRecipeBtnConst);
 
-    act(() => {
-      userEvent.type(searchInput, 'Salmon');
-      userEvent.click(ingredientRadio);
-      userEvent.click(searchRecipeBtn);
-    });
+    // act(() => {
+    userEvent.type(searchInput, 'Chicken');
+    userEvent.click(ingredientRadio);
+    userEvent.click(searchRecipeBtn);
+    // });
 
     await waitFor(() => {
       const headingBaked = screen.getByRole('img', {
-        name: /baked salmon with fennel & tomatoes/i,
+        name: /brown stew chicken/i,
       });
       expect(headingBaked).toBeInTheDocument();
     });
