@@ -135,7 +135,7 @@ function RecipeDetails() {
       </button>
       <button
         data-testid="favorite-btn"
-        onClick={ handleFavorites }
+        // onClick={ handleFavorites }
       >
         <img src={ whiteHeartIcon } alt="btn" />
       </button>
