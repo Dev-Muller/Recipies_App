@@ -7,7 +7,8 @@ header {
   display: flex;
   flex-flow: column;
   justify-content: space-evenly;
-  /*position: fixed;*/ /* após descomentar essa linha, precisa ir no foods.css alterar a margin-top*/
+
+  /* position: fixed; */
   top: 0;
   width: 100%;
 }
