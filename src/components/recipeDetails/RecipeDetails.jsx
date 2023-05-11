@@ -1,19 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
+import copy from 'clipboard-copy';
 import { useHistory } from 'react-router-dom';
-import { fetchById } from '../../services/fetchs_functions';
 import AppContext from '../../context/AppContext';
 import Recomended from '../recomended/Recomended';
+
+import shareIcon from '../../images/shareIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import StartRecipeButton from '../startRecipeButton/StartRecipeButton';
+import { fetchById } from '../../services/fetchs_functions';
 import './recipeDetails.css';
-import StartRecipeButton from '../recipeButton/StartRecipeButton';
 
 function RecipeDetails() {
-  const { apiType, setApiType } = useContext(AppContext);
+  const { apiType, setApiType, recipeId, setRecipeId } = useContext(AppContext);
   const history = useHistory();
   const [recipe, setRecipe] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measureList, setMeasureList] = useState([]);
   const [ingredientsAndMeasure, setIngredientsAndMeasure] = useState([]);
   const [embed, setEmbed] = useState('');
+  const [isDoneRecipe, setIsDoneRecipe] = useState(false);
+  const [isContinueRecipe, setIsContinueRecipe] = useState(true);
+  const [isShareClicked, setIsShareClicked] = useState(false);
 
   useEffect(() => {
     if (ingredientsList.length && measureList.length) {
@@ -23,7 +30,21 @@ function RecipeDetails() {
     }
   }, [ingredientsList, measureList]);
 
+  const getLocalStorageFunc = useCallback((id) => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (doneRecipes) {
+      if (doneRecipes.find((eachRecipe) => Number(eachRecipe.id) === Number(id))) {
+        setIsDoneRecipe(true);
+        setIsContinueRecipe(false);
+      } else {
+        setIsDoneRecipe(false);
+        setIsContinueRecipe(false);
+      }
+    }
+  }, []);
+
   useEffect(() => {
+    setRecipeId(history.location.pathname.replace(/\D/g, ''));
     const runFetchId = async () => {
       const id = history.location.pathname.split('/')[2];
       const type = history.location.pathname.split('/')[1];
@@ -37,7 +58,8 @@ function RecipeDetails() {
       }
     };
     runFetchId();
-  }, [history.location.pathname, setApiType]);
+    getLocalStorageFunc(recipeId);
+  }, [history.location.pathname, setApiType, setRecipeId, recipeId, getLocalStorageFunc]);
 
   useEffect(() => {
     const createIngredients = () => {
@@ -57,13 +79,8 @@ function RecipeDetails() {
         const arrays = Object.entries(object[0]).filter((item) => (
           item[0].startsWith('strMeasure')
         ));
-        if (history.location.pathname.includes('meals')) {
-          const measures = arrays.filter((item) => item[1]); // esses ifs não precisam mais
-          setMeasureList(measures);
-        } if (history.location.pathname.includes('drinks')) {
-          const measures = arrays.filter((item) => item[1]);
-          setMeasureList(measures);
-        }
+        const measures = arrays.filter((item) => item[1]);
+        setMeasureList(measures);
       }
     };
 
@@ -86,9 +103,42 @@ function RecipeDetails() {
     && history.location.pathname !== '/meals/52968') { createYoutubeEmbed(); }
   }, [recipe, history.location.pathname]);
 
+  const handleShare = () => {
+    copy(`http://localhost:3000${history.location.pathname}`);
+    setIsShareClicked(true);
+  };
+
+  // const handleFavorites = (id, type, nationality, category, alcoholicOrNot, name, image) => {
+  //   const favorite = [
+  //     {
+  //       id,
+  //       type,
+  //       nationality,
+  //       category,
+  //       alcoholicOrNot,
+  //       name,
+  //       image,
+  //     },
+  //   ];
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify(favorite));
+  // };
+
   return (
     <div className="details-body">
       <h1>Recipe Details</h1>
+      {isShareClicked && <h1>Link copied!</h1> }
+      <button
+        onClick={ handleShare }
+        data-testid="share-btn"
+      >
+        <img src={ shareIcon } alt="btn" />
+      </button>
+      <button
+        data-testid="favorite-btn"
+        // onClick={ handleFavorites }
+      >
+        <img src={ whiteHeartIcon } alt="btn" />
+      </button>
       {recipe?.map((details, index) => (
         <div key={ index }>
           <img
@@ -142,7 +192,11 @@ function RecipeDetails() {
           <Recomended />
         </div>
       ))}
-      <StartRecipeButton />
+      <StartRecipeButton
+        isContinueRecipe={ isContinueRecipe }
+        isDoneRecipe={ isDoneRecipe }
+      />
+      {console.log(isContinueRecipe, isDoneRecipe)}
     </div>
   );
 }

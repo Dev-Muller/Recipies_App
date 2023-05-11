@@ -25,18 +25,21 @@ function Recomended() {
     runFetchRecomendation();
   }, [apiType, history.location.pathname, setApiType, runFetchRecomendation]);
 
+  const limit = 6;
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 1,
+    centerMode: true,
   };
+  const newRecomended = recomendedList.slice(0, limit);
 
   return (
     <div>
       <Slider { ...settings }>
-        {recomendedList.slice(0, settings.slidesToShow).map((item, index) => (
+        {newRecomended.map((item, index) => (
           <div
             data-testid={ `${index}-recommendation-card` }
             key={ index }
