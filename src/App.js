@@ -9,8 +9,7 @@ import DoneRecipes from './pages/doneRecipes/DoneRecipes';
 import Drinks from './pages/meals&drinks/Drinks';
 import Meals from './pages/meals&drinks/Meals';
 import Profile from './pages/profile/Profile';
-import RecipeDetails from './components/recipeDetails/RecipeDetails';
-import RecipeInProgress from './components/recipeInProgress/RecipeInProgress';
+import RecipeDetails from './pages/recipeDetails/RecipeDetails';
 
 function App() {
   return (
@@ -27,12 +26,12 @@ function App() {
         <Route
           exact
           path="/meals/:idMeal/in-progress"
-          component={ RecipeInProgress }
+          component={ RecipeDetails }
         />
         <Route
           exact
           path="/drinks/:idDrink/in-progress"
-          component={ RecipeInProgress }
+          component={ RecipeDetails }
         />
       </Switch>
     </div>

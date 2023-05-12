@@ -28,7 +28,6 @@ function DoneRecipes() {
 
   return (
     <div>
-      <Header />
       <Header title="Done Recipes" enableSearchIcon={ false } />
 
       {linkCopied && <p>Link copied!</p>}
@@ -55,13 +54,13 @@ function DoneRecipes() {
       {recipes
         .filter((recipe) => {
           if (filter === 'all') {
-            return true; // No filter, return all recipes
+            return true;
           } if (filter === 'meal') {
-            return recipe.type === 'meal'; // Filter by meals
+            return recipe.type === 'meal';
           } if (filter === 'drink') {
-            return recipe.type === 'drink'; // Filter by drinks
+            return recipe.type === 'drink';
           }
-          return false; // Invalid filter, return no recipes
+          return false;
         })
         .map((recipe, index) => {
           if (recipe.type === 'meal') {

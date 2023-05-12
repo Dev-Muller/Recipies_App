@@ -35,16 +35,15 @@ export const fetchById = async (type, id) => {
   const result = await response.json();
   if (type === 'meals') return result.meals;
   if (type === 'drinks') return result.drinks;
-  console.log('não obteve resposta');
 };
 
 export const fetchFullRecipe = async (type) => {
   let URL = '';
   switch (type) {
-  case 'meals':
+  case 'Meal':
     URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
     break;
-  case 'drinks':
+  case 'Drink':
     URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
     break;
   default:
@@ -52,8 +51,8 @@ export const fetchFullRecipe = async (type) => {
   }
   const response = await fetch(URL);
   const result = await response.json();
-  if (type === 'meals') return result.meals;
-  if (type === 'drinks') return result.drinks;
+  if (type === 'Meal') return result.meals;
+  if (type === 'Drink') return result.drinks;
 };
 
 export const fetchCategories = async (type) => {
