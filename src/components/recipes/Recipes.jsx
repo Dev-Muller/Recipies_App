@@ -26,7 +26,7 @@ function Recipes({ data }) {
     const runFetch = async () => {
       if (history.location.pathname === '/meals') {
         if (!isFiltered) {
-          const resultRecipe = await fetchFullRecipe('meals');
+          const resultRecipe = await fetchFullRecipe('Meal');
           const resultCat = await fetchCategories('meals');
           setApiType('Meal');
           setApiData(resultRecipe);
@@ -39,7 +39,7 @@ function Recipes({ data }) {
       }
       if (history.location.pathname === '/drinks') {
         if (!isFiltered) {
-          const resultRecipe = await fetchFullRecipe('drinks');
+          const resultRecipe = await fetchFullRecipe('Drink');
           const resultCat = await fetchCategories('drinks');
           setApiType('Drink');
           setApiData(resultRecipe);
@@ -52,7 +52,13 @@ function Recipes({ data }) {
       }
     };
     runFetch();
-  }, [history.location.pathname, setApiType, setApiData, apiCategory, isFiltered]);
+  }, [
+    history.location.pathname,
+    setApiType,
+    setApiData,
+    apiCategory,
+    isFiltered,
+  ]);
 
   const handleAll = () => {
     setIsFiltered(false);
