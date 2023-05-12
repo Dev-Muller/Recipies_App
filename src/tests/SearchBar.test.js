@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { act } from 'react-dom/test-utils';
+// import { Alert } from 'react-native';
 import App from '../App';
 import AppProvider from '../context/AppProvider';
 import fetch from '../../cypress/mocks/fetch';
@@ -81,15 +82,15 @@ describe('Testes component Search Bar', () => {
     const ingredientRadio = await screen.findByTestId(ingredientRadioConst);
     const searchRecipeBtn = await screen.findByTestId(searchRecipeBtnConst);
 
-    act(() => {
-      userEvent.type(searchInput, 'Salmon');
-      userEvent.click(ingredientRadio);
-      userEvent.click(searchRecipeBtn);
-    });
+    // act(() => {
+    userEvent.type(searchInput, 'Chicken');
+    userEvent.click(ingredientRadio);
+    userEvent.click(searchRecipeBtn);
+    // });
 
     await waitFor(() => {
       const headingBaked = screen.getByRole('img', {
-        name: /baked salmon with fennel & tomatoes/i,
+        name: /brown stew chicken/i,
       });
       expect(headingBaked).toBeInTheDocument();
     });
@@ -126,19 +127,20 @@ describe('Testes component Search Bar', () => {
     const searchRecipeBtn = await screen.findByTestId(searchRecipeBtnConst);
 
     act(() => {
-      userEvent.type(searchInput, 'Salmon');
+      userEvent.type(searchInput, 'soup');
       userEvent.click(nameRadio);
       userEvent.click(searchRecipeBtn);
     });
 
     await waitFor(() => {
       const headingBaked = screen.getByRole('img', {
-        name: /salmon prawn risotto/i,
+        name: /leblebi soup/i,
       });
       expect(headingBaked).toBeInTheDocument();
     });
   });
   it('testa o filtro por primeira letra no endpoint meals', async () => {
+    // Não tem o endpoint na fetch.js
     const history = createMemoryHistory();
     render(
       <Router history={ history }>
@@ -170,19 +172,21 @@ describe('Testes component Search Bar', () => {
     const searchRecipeBtn = await screen.findByTestId(searchRecipeBtnConst);
 
     act(() => {
-      userEvent.type(searchInput, 'Salmon');
+      userEvent.type(searchInput, 'C');
       userEvent.click(firstLetterRadio);
       userEvent.click(searchRecipeBtn);
     });
 
     await waitFor(() => {
       const heading = screen.getByRole('img', {
-        name: /spaghetti bolognese/i,
+        name: /chocolate gateau/i,
       });
       expect(heading).toBeInTheDocument();
     });
   });
   it('testa o filtro por primeira letra error no endpoint meals', async () => {
+    // testar alert ?
+    // jest.spyOn(Alert, 'alert');
     const history = createMemoryHistory();
     render(
       <Router history={ history }>
@@ -214,13 +218,13 @@ describe('Testes component Search Bar', () => {
     const searchRecipeBtn = await screen.findByTestId(searchRecipeBtnConst);
 
     act(() => {
-      userEvent.type(searchInput, 'Salmon');
+      userEvent.type(searchInput, 'Chicken');
       userEvent.click(firstLetterRadio);
       userEvent.click(searchRecipeBtn);
     });
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith('alert');
+      expect(global.alert).toHaveBeenCalled();
     });
   });
   it('testa o filtro por ingrediente em meals', async () => {
@@ -255,14 +259,14 @@ describe('Testes component Search Bar', () => {
     const searchRecipeBtn = await screen.findByTestId(searchRecipeBtnConst);
 
     act(() => {
-      userEvent.type(searchInput, 'lemon');
+      userEvent.type(searchInput, 'Light rum');
       userEvent.click(ingredientRadio);
       userEvent.click(searchRecipeBtn);
     });
 
     await waitFor(() => {
       const heading = screen.getByRole('img', {
-        name: /a true amaretto sour/i,
+        name: /151 florida bushwacker/i,
       });
       expect(heading).toBeInTheDocument();
     });

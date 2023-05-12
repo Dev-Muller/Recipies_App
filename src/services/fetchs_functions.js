@@ -7,12 +7,13 @@ export const fetchApi = async (radio, server, searchElement) => {
   case 'name':
     URL = `https://www.${server}.com/api/json/v1/1/search.php?s=${searchElement}`;
     break;
-  case 'first-letter':
+  default:
     URL = `https://www.${server}.com/api/json/v1/1/search.php?f=${searchElement}`;
     break;
-  default:
-    break;
+  // default:
+  //   break;
   }
+  console.log(URL);
   const response = await fetch(URL);
   const result = await response.json();
   if (server === 'themealdb') return result.meals;
@@ -25,11 +26,11 @@ export const fetchById = async (type, id) => {
   case 'meals':
     URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
     break;
-  case 'drinks':
+  default:
     URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
     break;
-  default:
-    break;
+  // default:
+  //   break;
   }
   const response = await fetch(URL);
   const result = await response.json();
@@ -61,11 +62,11 @@ export const fetchCategories = async (type) => {
   case 'meals':
     URL = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
     break;
-  case 'drinks':
+  default:
     URL = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
     break;
-  default:
-    break;
+  // default:
+  //   break;
   }
   const response = await fetch(URL);
   const result = await response.json();
@@ -79,11 +80,11 @@ export const fetchCategoriesList = async (type, category) => {
   case 'meals':
     URL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
     break;
-  case 'drinks':
+  default:
     URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
     break;
-  default:
-    break;
+  // default:
+  //   break;
   }
   const response = await fetch(URL);
   const result = await response.json();
@@ -97,11 +98,11 @@ export const fetchRecomendation = async (type) => {
   case 'Meal':
     URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
     break;
-  case 'Drink':
+  default:
     URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
     break;
-  default:
-    break;
+  // default:
+  //   break;
   }
   const response = await fetch(URL);
   const result = await response.json();
