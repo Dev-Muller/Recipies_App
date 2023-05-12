@@ -21,7 +21,7 @@ function SearchBar() {
       setApiData(data);
     }
     if (history.location.pathname === '/drinks') {
-      // console.log('Oiá', searchElement);
+      console.log('Oiá', searchElement);
       const data = await fetchApi(radio, 'thecocktaildb', searchElement);
       setApiData(data);
     }
