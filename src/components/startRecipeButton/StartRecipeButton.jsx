@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import './startRecipeButton.css';
 import { Link, useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import AppContext from '../../context/AppContext';
 
-function StartRecipeButton({ recipeData }) {
-  console.log(recipeData);
+function StartRecipeButton() { // receber a prop recipeData para povoar o objeto
+  // console.log(recipeData);
   const inProgress = 'in-progress';
   const history = useHistory();
   const { recipeId } = useContext(AppContext);
@@ -15,8 +15,30 @@ function StartRecipeButton({ recipeData }) {
   const [apiType, setApiType] = useState('');
 
   const getStoredStarted = () => {
+    const id = history.location.pathname.split('/')[2];
+    const type = history.location.pathname.split('/')[1];
     if (!JSON.parse(localStorage.getItem('inProgressRecipes'))) {
-      localStorage.setItem('inProgressRecipes', JSON.stringify([]));
+      const obj = {
+        drinks: {
+        },
+        meals: {
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
+    }
+
+    const hasKey = Object.keys(JSON.parse(localStorage
+      .getItem('inProgressRecipes'))[type]).includes(id);
+    if (!hasKey) {
+      const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const newObj = {
+        ...inProgressRecipes,
+        [type]: {
+          ...inProgressRecipes[type],
+          [id]: [],
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(newObj));
     }
   };
 
@@ -44,22 +66,22 @@ function StartRecipeButton({ recipeData }) {
   }, []);
 
   useEffect(() => {
-    const id = history.location.pathname.split('/')[2];
-    getStoredStarted();
+    // const id = history.location.pathname.split('/')[2];
     createApiType();
     getLocalStorageFunc(recipeId);
     if (!history.location.pathname.includes(inProgress)) {
       setFinishRecipe(false);
       setContinueRecipe(false);
     }
-    if (JSON.parse(localStorage.getItem('inProgressRecipes')).length > 0) {
-      const recipeStoraged = JSON.parse(localStorage.getItem('inProgressRecipes'));
-      const recipeFound = recipeStoraged.find((recipeid) => recipeid === id);
-      if (recipeFound) {
-        setContinueRecipe(true);
-      } else {
-        setContinueRecipe(false);
-      }
+    if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
+      // const recipeStoraged = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      // const type = history.location.pathname.split('/')[1];
+    //   const recipeFound = Object.keys(recipeStoraged[type]).includes(id);
+    //   if (recipeFound) {
+    //     setContinueRecipe(true);
+    //   } else {
+    //     setContinueRecipe(false);
+    //   }
     }
     if (history.location.pathname.includes(inProgress)) {
       setFinishRecipe(true);
@@ -71,19 +93,7 @@ function StartRecipeButton({ recipeData }) {
   ]);
 
   const handleClick = () => {
-    const id = history.location.pathname.split('/')[2];
-
-    if (JSON.parse(localStorage.getItem('inProgressRecipes')).length > 0) {
-      const startedRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-      const idDiferent = startedRecipes.filter((itemId) => itemId !== id);
-      // console.log(idDiferent);
-      if (idDiferent) {
-        localStorage
-          .setItem('inProgressRecipes', JSON.stringify([...idDiferent, id]));
-      }
-    } else {
-      localStorage.setItem('inProgressRecipes', JSON.stringify([id]));
-    }
+    getStoredStarted();
   };
 
   return (
@@ -96,14 +106,13 @@ function StartRecipeButton({ recipeData }) {
         {continueRecipe && 'Continue Recipe'}
         {finishRecipe && !doneRecipe && !continueRecipe && 'Finish Recipe'}
         {!continueRecipe && !finishRecipe && 'Start Recipe'}
-        {/* {console.log(continueRecipe, finishRecipe, doneRecipe)} */}
       </button>
     </Link>
   );
 }
 
-StartRecipeButton.propTypes = {
-  recipeData: PropTypes.shape({}).isRequired,
-};
+// StartRecipeButton.propTypes = {
+//   recipeData: PropTypes.shape({}).isRequired,
+// };
 
 export default StartRecipeButton;

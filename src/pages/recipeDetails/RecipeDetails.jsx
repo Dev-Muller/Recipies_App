@@ -66,7 +66,8 @@ function RecipeDetails() {
   }, [recipe, history.location.pathname]);
 
   const handleShare = () => {
-    copy(`http://localhost:3000${history.location.pathname}`);
+    const limit = 3;
+    copy(`http://localhost:3000${history.location.pathname.split('/').slice(0, limit).join('/')}`);
     setIsShareClicked(true);
   };
 

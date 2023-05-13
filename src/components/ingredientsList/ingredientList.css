@@ -1,0 +1,7 @@
+.item-checked {
+  text-decoration: line-through solid black;
+}
+
+.item-unchecked {
+  text-decoration: none;
+}
