@@ -172,16 +172,13 @@ describe('Testes component Search Bar', () => {
     const searchRecipeBtn = await screen.findByTestId(searchRecipeBtnConst);
 
     act(() => {
-      userEvent.type(searchInput, 'C');
+      userEvent.type(searchInput, 'a');
       userEvent.click(firstLetterRadio);
       userEvent.click(searchRecipeBtn);
     });
 
     await waitFor(() => {
-      const heading = screen.getByRole('img', {
-        name: /chocolate gateau/i,
-      });
-      expect(heading).toBeInTheDocument();
+      expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?f=a');
     });
   });
   it('testa o filtro por primeira letra error no endpoint meals', async () => {

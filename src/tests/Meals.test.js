@@ -7,6 +7,7 @@ import { act } from 'react-dom/test-utils';
 import App from '../App';
 import AppProvider from '../context/AppProvider';
 import fetch from '../../cypress/mocks/fetch';
+import oneMeal from '../../cypress/mocks/oneMeal';
 
 describe('Testes component Meals', () => {
   beforeEach(() => {
@@ -126,5 +127,25 @@ describe('Testes component Meals', () => {
     });
 
     expect(history.location.pathname).toBe('/meals/52977');
+  });
+  it('testa se tendo apenas um item já vai para a rota deste item', async () => {
+    // Storage.prototype.getItem = jest.fn(() => JSON.stringify(mockUserData));
+    jest.clearAllMocks();
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve(oneMeal),
+    }));
+    const history = createMemoryHistory();
+    render(
+      <Router history={ history }>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </Router>,
+    );
+    history.push('/meals');
+
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/meals/52771');
+    });
   });
 });
