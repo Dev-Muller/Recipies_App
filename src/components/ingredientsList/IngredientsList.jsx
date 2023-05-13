@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { fetchById } from '../../services/fetchs_functions';
+import './ingredientList.css';
 
 function IngredientsList() {
   const history = useHistory();
@@ -8,11 +9,12 @@ function IngredientsList() {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measureList, setMeasureList] = useState([]);
   const [recipe, setRecipe] = useState([]);
+  const [ingredientStored, setIngredientStored] = useState({});
+  const [isChecked, setIsChecked] = useState(false);
+  const [checkedId, setCheckedId] = useState('');
 
   useEffect(() => {
-    const type = history.location.pathname.split('/')[1];
     const runFetchId = async () => {
-      const id = history.location.pathname.split('/')[2];
       const result = await fetchById(type, id);
       setRecipe(result);
     };
@@ -26,7 +28,8 @@ function IngredientsList() {
         const arrays = Object.entries(object[0]).filter((item) => (
           item[0].startsWith('strIngredient')
         ));
-        const ingredients = arrays.filter((item) => item[1]);
+        const ingredients = arrays.map((item) => item[1])
+          .filter((e) => e !== '').filter((i) => i !== null);
         setIngredientsList(ingredients);
       }
     };
@@ -36,14 +39,9 @@ function IngredientsList() {
         const arrays = Object.entries(object[0]).filter((item) => (
           item[0].startsWith('strMeasure')
         ));
-        if (history.location.pathname.includes('drink')) {
-          const measures = arrays.filter((item) => item[1]);
-          setMeasureList(measures);
-        }
-        if (history.location.pathname.includes('meals')) {
-          const measures = arrays.filter((item) => item[1]); // adicionar o [1] após conclusão do projeto
-          setMeasureList(measures);
-        }
+        const measures = arrays.map((item) => item[1])
+          .filter((e) => e !== ' ').filter((i) => i !== null);
+        setMeasureList(measures);
       }
     };
     createMeasures();
@@ -52,11 +50,31 @@ function IngredientsList() {
 
   useEffect(() => {
     if (ingredientsList.length && measureList.length) {
-      const newIngredientsAndMeasure = measureList
-        .map((measure, index) => [ingredientsList[index], measure[1]]); // adicionar [1] no ingredientList após a conclusão do projeto
+      const newIngredientsAndMeasure = ingredientsList
+        .map((measure, index) => [measure, measureList[index]]);
       setIngredientsAndMeasure(newIngredientsAndMeasure);
     }
   }, [ingredientsList, measureList]);
+
+  const createInProgressObj = (target) => {
+    const id = history.location.pathname.split('/')[2];
+    const recipeInprogressStoreged = localStorage.getItem('inProgressRecipes');
+    console.log(recipeInprogressStoreged);
+    setIngredientStored((prevState) => (
+      {
+        ...prevState,
+        drinks: { ...prevState.drinks, [id]: target.parentNode.children[1].innerHTML },
+      }
+    ));
+
+    console.log(ingredientStored);
+    // target.parentNode.children[1].innerHTML
+    localStorage.setItem('inProgressRecipes', JSON.stringify(ingredientStored));
+  };
+
+  const handleChange = ({ target }) => {
+    createInProgressObj(target);
+  };
 
   return (
     <div>
@@ -67,13 +85,36 @@ function IngredientsList() {
             data-testid={ `${ingredientsIndex}-ingredient-name-and-measure` }
             key={ ingredientsIndex }
           >
-            <p>
-              {ingredient[0]}
-              {' '}
-              -
-              {' '}
-              {ingredient[1]}
-            </p>
+            {history.location.pathname.includes('/in-progress') ? (
+              <div>
+                <label
+                  htmlFor={ ingredient[0] }
+                  data-testid={ `${ingredientsIndex}-ingredient-step` }
+                  className={ isChecked ? 'item-checked' : 'item-unchecked' }
+                >
+                  <input
+                    id={ ingredient[0] }
+                    type="checkbox"
+                    onChange={ (event) => handleChange(event) }
+                  />
+                  <p>
+                    {ingredient[0]}
+                    {' '}
+                    -
+                    {' '}
+                    {ingredient[1]}
+                  </p>
+                </label>
+              </div>
+            ) : (
+              <p>
+                {ingredient[0]}
+                {' '}
+                -
+                {' '}
+                {ingredient[1]}
+              </p>
+            )}
           </li>
         ))}
       </ul>
