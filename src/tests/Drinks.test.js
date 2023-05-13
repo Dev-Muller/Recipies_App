@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
@@ -7,6 +7,7 @@ import { act } from 'react-dom/test-utils';
 import App from '../App';
 import AppProvider from '../context/AppProvider';
 import fetch from '../../cypress/mocks/fetch';
+import oneDrink from '../../cypress/mocks/oneDrink';
 
 describe('Testes component Drinks', () => {
   beforeEach(() => {
@@ -128,5 +129,25 @@ describe('Testes component Drinks', () => {
     });
 
     expect(history.location.pathname).toBe('/drinks/15997');
+  });
+  it('testa se tendo apenas um item já vai para a rota deste item', async () => {
+    // Storage.prototype.getItem = jest.fn(() => JSON.stringify(mockUserData));
+    jest.clearAllMocks();
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve(oneDrink),
+    }));
+    const history = createMemoryHistory();
+    render(
+      <Router history={ history }>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </Router>,
+    );
+    history.push('/drinks');
+
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/drinks/178319');
+    });
   });
 });
