@@ -4,37 +4,45 @@ import { fetchById } from '../../services/fetchs_functions';
 import './ingredientList.css';
 
 function IngredientsList() {
+  const inProgress = '/in-progress';
+
   const history = useHistory();
   const [ingredientsAndMeasure, setIngredientsAndMeasure] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measureList, setMeasureList] = useState([]);
   const [recipe, setRecipe] = useState([]);
+  // const [ingredientSaved, setIngredientSaved] = useState([]);
 
   const createIngredientSaved = () => {
     const id = history.location.pathname.split('/')[2];
     const type = history.location.pathname.split('/')[1];
-    if (history.location.pathname.includes('in-progress')) {
-      if (!JSON.parse(localStorage.getItem('inProgressRecipes'))[type][id].length > 0) {
+    if (history.location.pathname.includes(inProgress)
+     && JSON.parse(localStorage.getItem('inProgressRecipes'))) {
+      if (JSON.parse(localStorage.getItem('inProgressRecipes'))[type][id].length === 0) {
         return [];
       }
       return JSON.parse(localStorage.getItem('inProgressRecipes'))[type][id];
     }
+    return [];
   };
 
-  const [ingredientSaved, setIngredientSaved] = useState(createIngredientSaved());
-  console.log(ingredientSaved);
+  const [ingredientSaved, setIngredientSaved] = useState(createIngredientSaved() || []);
 
   useEffect(() => {
-    if (!JSON.parse(localStorage.getIem('inProgressRecipe'))) {
-      localStorage
-        .setItem('inProgressRecipes', JSON.stringify({ meals: {}, drinks: {} }));
+    const id = history.location.pathname.split('/')[2];
+    const type = history.location.pathname.split('/')[1];
+
+    const inProgressRecipes = localStorage.getItem('inProgressRecipes');
+    if (!inProgressRecipes) {
+      const initialValue = {
+        [type]: {
+          [id]: [],
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(initialValue));
     }
-  }, []);
 
-  useEffect(() => {
     const runFetchId = async () => {
-      const id = history.location.pathname.split('/')[2];
-      const type = history.location.pathname.split('/')[1];
       const result = await fetchById(type, id);
       setRecipe(result);
     };
@@ -95,7 +103,7 @@ function IngredientsList() {
   useEffect(() => {
     const id = history.location.pathname.split('/')[2];
     const type = history.location.pathname.split('/')[1];
-    if (history.location.pathname.includes('in-progress')) {
+    if (history.location.pathname.includes(inProgress)) {
       const recoverLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
       const newObj = {
         ...recoverLocalStorage,
@@ -117,7 +125,7 @@ function IngredientsList() {
             data-testid={ `${ingredientsIndex}-ingredient-name-and-measure` }
             key={ ingredientsIndex }
           >
-            {history.location.pathname.includes('/in-progress') ? (
+            {history.location.pathname.includes(inProgress) ? (
               <div>
                 <label
                   htmlFor={ ingredient[0] }
