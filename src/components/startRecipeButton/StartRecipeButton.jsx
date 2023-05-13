@@ -19,8 +19,9 @@ function StartRecipeButton() { // receber a prop recipeData para povoar o objeto
     const type = history.location.pathname.split('/')[1];
     if (!JSON.parse(localStorage.getItem('inProgressRecipes'))) {
       const obj = {
-        [type]: {
-          [id]: [],
+        drinks: {
+        },
+        meals: {
         },
       };
       localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
@@ -29,7 +30,15 @@ function StartRecipeButton() { // receber a prop recipeData para povoar o objeto
     const hasKey = Object.keys(JSON.parse(localStorage
       .getItem('inProgressRecipes'))[type]).includes(id);
     if (!hasKey) {
-      console.log('entrou');
+      const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const newObj = {
+        ...inProgressRecipes,
+        [type]: {
+          ...inProgressRecipes[type],
+          [id]: [],
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(newObj));
     }
   };
 

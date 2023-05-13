@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { fetchById } from '../../services/fetchs_functions';
 import './ingredientList.css';
@@ -9,12 +9,32 @@ function IngredientsList() {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measureList, setMeasureList] = useState([]);
   const [recipe, setRecipe] = useState([]);
-  const [ingredientStored, setIngredientStored] = useState({});
-  const [isChecked, setIsChecked] = useState(false);
-  const [checkedId, setCheckedId] = useState('');
+
+  const createIngredientSaved = () => {
+    const id = history.location.pathname.split('/')[2];
+    const type = history.location.pathname.split('/')[1];
+    if (history.location.pathname.includes('in-progress')) {
+      if (!JSON.parse(localStorage.getItem('inProgressRecipes'))[type][id].length > 0) {
+        return [];
+      }
+      return JSON.parse(localStorage.getItem('inProgressRecipes'))[type][id];
+    }
+  };
+
+  const [ingredientSaved, setIngredientSaved] = useState(createIngredientSaved());
+  console.log(ingredientSaved);
+
+  useEffect(() => {
+    if (!JSON.parse(localStorage.getIem('inProgressRecipe'))) {
+      localStorage
+        .setItem('inProgressRecipes', JSON.stringify({ meals: {}, drinks: {} }));
+    }
+  }, []);
 
   useEffect(() => {
     const runFetchId = async () => {
+      const id = history.location.pathname.split('/')[2];
+      const type = history.location.pathname.split('/')[1];
       const result = await fetchById(type, id);
       setRecipe(result);
     };
@@ -56,25 +76,37 @@ function IngredientsList() {
     }
   }, [ingredientsList, measureList]);
 
-  const createInProgressObj = (target) => {
-    const id = history.location.pathname.split('/')[2];
-    const recipeInprogressStoreged = localStorage.getItem('inProgressRecipes');
-    console.log(recipeInprogressStoreged);
-    setIngredientStored((prevState) => (
-      {
-        ...prevState,
-        drinks: { ...prevState.drinks, [id]: target.parentNode.children[1].innerHTML },
-      }
-    ));
-
-    console.log(ingredientStored);
-    // target.parentNode.children[1].innerHTML
-    localStorage.setItem('inProgressRecipes', JSON.stringify(ingredientStored));
-  };
+  const createInProgressObj = useCallback((target) => {
+    const targetValue = target.parentNode.children[1].innerHTML;
+    const targetIngredient = targetValue.split(' -')[0];
+    setIngredientSaved((prevState) => [...prevState, targetIngredient]);
+  }, []);
 
   const handleChange = ({ target }) => {
     createInProgressObj(target);
+    const targetValue = target.parentNode.children[1].innerHTML;
+    const targetIngredient = targetValue.split(' -')[0];
+    if (ingredientSaved.includes(targetIngredient)) {
+      const newIngredientesSaved = ingredientSaved.filter((e) => e !== targetIngredient);
+      setIngredientSaved(newIngredientesSaved);
+    }
   };
+
+  useEffect(() => {
+    const id = history.location.pathname.split('/')[2];
+    const type = history.location.pathname.split('/')[1];
+    if (history.location.pathname.includes('in-progress')) {
+      const recoverLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const newObj = {
+        ...recoverLocalStorage,
+        [type]: {
+          ...recoverLocalStorage[type],
+          [id]: ingredientSaved,
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(newObj));
+    }
+  }, [ingredientSaved, history.location.pathname]);
 
   return (
     <div>
@@ -90,12 +122,14 @@ function IngredientsList() {
                 <label
                   htmlFor={ ingredient[0] }
                   data-testid={ `${ingredientsIndex}-ingredient-step` }
-                  className={ isChecked ? 'item-checked' : 'item-unchecked' }
+                  className={ ingredientSaved?.includes(ingredient[0])
+                    ? 'item-checked' : 'item-unchecked' }
                 >
                   <input
                     id={ ingredient[0] }
                     type="checkbox"
                     onChange={ (event) => handleChange(event) }
+                    checked={ ingredientSaved?.includes(ingredient[0]) }
                   />
                   <p>
                     {ingredient[0]}
