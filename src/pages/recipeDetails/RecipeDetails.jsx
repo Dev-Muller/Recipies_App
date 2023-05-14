@@ -19,7 +19,6 @@ function RecipeDetails() {
   const [embed, setEmbed] = useState('');
   const [isShareClicked, setIsShareClicked] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
-  const [recipeData, setRecipeData] = useState([]);
 
   const getStoredFavorites = () => {
     if (!JSON.parse(localStorage.getItem('favoriteRecipes'))) {
@@ -72,6 +71,7 @@ function RecipeDetails() {
   };
 
   useEffect(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteToStore));
     if (JSON.parse(localStorage.getItem('favoriteRecipes'))) {
       const favorited = JSON.parse(localStorage.getItem('favoriteRecipes'));
       const favoriteFound = favorited.find((favorite) => favorite.id === recipeId);
@@ -81,7 +81,7 @@ function RecipeDetails() {
         setIsFavorited(false);
       }
     }
-  }, [recipeId]);
+  }, [recipeId, favoriteToStore]);
 
   const handleFavorites = async () => {
     const type = history.location.pathname.split('/')[1];
@@ -91,6 +91,7 @@ function RecipeDetails() {
       idDrink, idMeal, strCategory, strAlcoholic, strArea,
       strMeal, strDrink, strDrinkThumb, strMealThumb,
     } = recipeFound[0];
+
     const newFavorite = {
       id: (apiType === 'Meal' ? idMeal : idDrink),
       type: type.slice(0, limit),
@@ -113,15 +114,6 @@ function RecipeDetails() {
       return [...prevState, newFavorite];
     });
   };
-
-  useEffect(() => {
-    const id = history.location.pathname.split('/')[2];
-    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteToStore));
-    const recipeObj = {
-      [id]: [],
-    };
-    setRecipeData(recipeObj);
-  }, [favoriteToStore, apiType, recipe, history.location.pathname]);
 
   return (
     <div className="details-body">
@@ -183,7 +175,7 @@ function RecipeDetails() {
           <Recomended />
         </div>
       ))}
-      <StartRecipeButton recipeData={ recipeData } />
+      <StartRecipeButton />
     </div>
   );
 }

@@ -11,13 +11,6 @@ function Meals() {
   const history = useHistory();
 
   useEffect(() => {
-    if (!JSON.parse(localStorage.getItem('inProgressRecipes'))) {
-      localStorage
-        .setItem('inProgressRecipes', JSON.stringify({ meals: {}, drinks: {} }));
-    }
-  }, []);
-
-  useEffect(() => {
     setIsClicked(false);
   });
 

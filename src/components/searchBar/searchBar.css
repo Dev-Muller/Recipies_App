@@ -1,6 +1,6 @@
 .search-bar-container {
   align-items: center;
-  background-color: #6326be;
+  background-color: #0D47A1;
   border-radius: 10px;
   color: white;
   display: flex;
@@ -10,10 +10,10 @@
 }
 
 .input-search {
-  background-color: rgb(49, 49, 49);
-  border: 1px solid white;
+  background-color: #B3E5FC;
+  border: 1px solid #0D47A1;
   border-radius: 5px;
-  color: white;
+  color: #0D47A1;
   font-size: 20px;
   font-weight: 700;
   height: 40px;

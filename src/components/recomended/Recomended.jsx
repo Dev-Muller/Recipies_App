@@ -10,7 +10,6 @@ import AppContext from '../../context/AppContext';
 function Recomended() {
   const { apiType, setApiType } = useContext(AppContext);
   const [recomendedList, setRecomendedList] = useState([]);
-  const [type, setType] = useState('');
   const history = useHistory();
 
   const runFetchRecomendation = useCallback(async () => {
@@ -19,9 +18,6 @@ function Recomended() {
   }, [apiType]);
 
   useEffect(() => {
-    if (apiType === 'Drink') setType('Meal');
-    if (apiType === 'Meal') setType('Drink');
-
     runFetchRecomendation();
   }, [apiType, history.location.pathname, setApiType, runFetchRecomendation]);
 
@@ -49,13 +45,13 @@ function Recomended() {
               data-testid={ `${index}-card-img` }
               height="150"
               width="150"
-              src={ item[`str${apiType}Thumb`] }
-              alt={ item[`str${apiType}`] }
+              src={ item[`str${apiType === 'Meal' ? 'Drink' : 'Meal'}Thumb`] }
+              alt={ item[`st${apiType === 'Meal' ? 'Drink' : 'Meal'}`] }
             />
             <p
               data-testid={ `${index}-recommendation-title` }
             >
-              { item[`str${type}`] }
+              { item[`str${apiType === 'Meal' ? 'Drink' : 'Meal'}`] }
             </p>
           </div>
         ))}

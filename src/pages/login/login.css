@@ -1,6 +1,6 @@
 .login-body {
   align-items: center;
-  background-color: #fcdc35;
+  background-color: #B3E5FC;
   display: flex;
   flex-flow: column;
   height: 100vh;
@@ -9,7 +9,7 @@
 
 .login-container {
   align-items: center;
-  background-color: #fcdc35;
+  background-color: #B3E5FC;
   display: flex;
   flex-flow: column;
   height: 200px;
