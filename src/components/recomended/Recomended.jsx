@@ -1,6 +1,9 @@
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+// // eslint-disable-next-line import/no-unresolved
+// import Slider from 'react-slick';
+// // eslint-disable-next-line import/no-unresolved
+// import 'slick-carousel/slick/slick.css';
+// // eslint-disable-next-line import/no-unresolved
+// import 'slick-carousel/slick/slick-theme.css';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -26,40 +29,40 @@ function Recomended() {
   }, [apiType, history.location.pathname, setApiType, runFetchRecomendation]);
 
   const limit = 6;
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    centerMode: true,
-  };
+  // const settings = {
+  //   dots: true,
+  //   infinite: false,
+  //   speed: 500,
+  //   slidesToShow: 2,
+  //   slidesToScroll: 1,
+  //   centerMode: true,
+  // };
   const newRecomended = recomendedList.slice(0, limit);
 
   return (
     <div>
-      <Slider { ...settings }>
-        {newRecomended.map((item, index) => (
-          <div
-            data-testid={ `${index}-recommendation-card` }
-            key={ index }
+      {/* <Slider { ...settings }> */}
+      {newRecomended.map((item, index) => (
+        <div
+          data-testid={ `${index}-recommendation-card` }
+          key={ index }
+        >
+          <img
+            className="foods-img"
+            data-testid={ `${index}-card-img` }
+            height="150"
+            width="150"
+            src={ item[`str${apiType}Thumb`] }
+            alt={ item[`str${apiType}`] }
+          />
+          <p
+            data-testid={ `${index}-recommendation-title` }
           >
-            <img
-              className="foods-img"
-              data-testid={ `${index}-card-img` }
-              height="150"
-              width="150"
-              src={ item[`str${apiType}Thumb`] }
-              alt={ item[`str${apiType}`] }
-            />
-            <p
-              data-testid={ `${index}-recommendation-title` }
-            >
-              { item[`str${type}`] }
-            </p>
-          </div>
-        ))}
-      </Slider>
+            { item[`str${type}`] }
+          </p>
+        </div>
+      ))}
+      {/* </Slider> */}
     </div>
   );
 }
