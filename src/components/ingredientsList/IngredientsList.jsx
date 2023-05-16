@@ -1,9 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { fetchById } from '../../services/fetchs_functions';
 import './ingredientList.css';
+import AppContext from '../../context/AppContext';
 
 function IngredientsList() {
+  const { setIsAllChecked } = useContext(AppContext);
   const inProgress = '/in-progress';
 
   const history = useHistory();
@@ -11,33 +13,41 @@ function IngredientsList() {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measureList, setMeasureList] = useState([]);
   const [recipe, setRecipe] = useState([]);
-  // const [ingredientSaved, setIngredientSaved] = useState([]);
 
   const createIngredientSaved = () => {
     const id = history.location.pathname.split('/')[2];
     const type = history.location.pathname.split('/')[1];
-    if (history.location.pathname.includes(inProgress)
-     && JSON.parse(localStorage.getItem('inProgressRecipes'))) {
-      if (JSON.parse(localStorage.getItem('inProgressRecipes'))[type][id].length === 0) {
-        return [];
-      }
+    if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
       return JSON.parse(localStorage.getItem('inProgressRecipes'))[type][id];
     }
-    return [];
   };
 
   const [ingredientSaved, setIngredientSaved] = useState(createIngredientSaved() || []);
 
+  const createInProgressObj = useCallback((target) => {
+    const targetValue = target.parentNode.children[1].innerHTML;
+    const targetIngredient = targetValue.split(' -')[0];
+    setIngredientSaved((prevState) => [...prevState, targetIngredient]);
+  }, []);
+
+  const handleChange = ({ target }) => {
+    createInProgressObj(target);
+    const targetValue = target.parentNode.children[1].innerHTML;
+    const targetIngredient = targetValue.split(' -')[0];
+    if (ingredientSaved.includes(targetIngredient)) {
+      const newIngredientesSaved = ingredientSaved.filter((e) => e !== targetIngredient);
+      setIngredientSaved(newIngredientesSaved);
+    }
+  };
+
   useEffect(() => {
     const id = history.location.pathname.split('/')[2];
     const type = history.location.pathname.split('/')[1];
-
     const inProgressRecipes = localStorage.getItem('inProgressRecipes');
     if (!inProgressRecipes) {
       const initialValue = {
-        [type]: {
-          [id]: [],
-        },
+        drinks: {},
+        meals: {},
       };
       localStorage.setItem('inProgressRecipes', JSON.stringify(initialValue));
     }
@@ -83,28 +93,18 @@ function IngredientsList() {
         .map((measure, index) => [measure, measureList[index]]);
       setIngredientsAndMeasure(newIngredientsAndMeasure);
     }
-  }, [ingredientsList, measureList]);
-
-  const createInProgressObj = useCallback((target) => {
-    const targetValue = target.parentNode.children[1].innerHTML;
-    const targetIngredient = targetValue.split(' -')[0];
-    setIngredientSaved((prevState) => [...prevState, targetIngredient]);
-  }, []);
-
-  const handleChange = ({ target }) => {
-    createInProgressObj(target);
-    const targetValue = target.parentNode.children[1].innerHTML;
-    const targetIngredient = targetValue.split(' -')[0];
-    if (ingredientSaved.includes(targetIngredient)) {
-      const newIngredientesSaved = ingredientSaved.filter((e) => e !== targetIngredient);
-      setIngredientSaved(newIngredientesSaved);
+    if (ingredientsList.length === ingredientSaved.length) {
+      setIsAllChecked(true);
+    } else {
+      setIsAllChecked(false);
     }
-  };
+  }, [ingredientsList, measureList, ingredientSaved, setIsAllChecked]);
 
   useEffect(() => {
     const id = history.location.pathname.split('/')[2];
     const type = history.location.pathname.split('/')[1];
-    if (history.location.pathname.includes(inProgress)) {
+    if (history.location.pathname.includes(inProgress)
+    && JSON.parse(localStorage.getItem('inProgressRecipes'))) {
       const recoverLocalStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
       const newObj = {
         ...recoverLocalStorage,
@@ -120,7 +120,9 @@ function IngredientsList() {
   return (
     <div>
       <h1>ingredients</h1>
-      <ul>
+      <ul
+        className="ingredients-list"
+      >
         {ingredientsAndMeasure?.map((ingredient, ingredientsIndex) => (
           <li
             data-testid={ `${ingredientsIndex}-ingredient-name-and-measure` }
@@ -135,12 +137,15 @@ function IngredientsList() {
                     ? 'item-checked' : 'item-unchecked' }
                 >
                   <input
+                    className="checkbox"
                     id={ ingredient[0] }
                     type="checkbox"
                     onChange={ (event) => handleChange(event) }
                     checked={ ingredientSaved?.includes(ingredient[0]) }
                   />
-                  <p>
+                  <p
+                    className="ingredients-inner-text"
+                  >
                     {ingredient[0]}
                     {' '}
                     -

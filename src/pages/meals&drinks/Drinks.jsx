@@ -7,12 +7,7 @@ import AppContext from '../../context/AppContext';
 import Recipes from '../../components/recipes/Recipes';
 
 function Drinks() {
-  const {
-    isClicked,
-    isFiltered,
-    setIsClicked,
-    apiData,
-  } = useContext(AppContext);
+  const { isClicked, isFiltered, setIsClicked, apiData } = useContext(AppContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -48,8 +43,8 @@ function Drinks() {
               <img
                 className="foods-img"
                 data-testid={ `${index}-card-img` }
-                height="120"
-                width="120"
+                height="100"
+                width="100"
                 src={ drink.strDrinkThumb }
                 alt={ drink.strDrink }
               />

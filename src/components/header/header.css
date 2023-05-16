@@ -4,6 +4,7 @@ header {
   background-color: rgba(145, 145, 145, 0.274);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-flow: column;
   justify-content: space-evenly;
@@ -25,11 +26,13 @@ header {
 
 .header-icons {
   align-items: center;
-  background-color: #fcdc35;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.404);
+  background-color: #f0d033;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-flow: row;
-  height: 50px;
+  height: 70px;
   justify-content: space-around;
   width: 100%;
 }

@@ -1,9 +1,12 @@
 footer {
   align-items: center;
-  background-color: #270f4b;
+  background-color: #7303f4;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
   bottom: 0;
-  box-shadow: -2px -2px 5px black;
+  box-shadow: 2px -2px 8px rgba(0, 0, 0, 0.8);
   display: flex;
+  height: 60px;
   justify-content: space-evenly;
   position: fixed;
   width: 100%;
@@ -11,4 +14,9 @@ footer {
 
 .drink-icon {
   color: white;
+}
+
+.meals-and-drinks-button {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
 }

@@ -1,6 +1,6 @@
 .search-bar-container {
   align-items: center;
-  background-color: #6326be;
+  background-color: #7303f4;
   border-radius: 10px;
   color: white;
   display: flex;
@@ -10,16 +10,35 @@
 }
 
 .input-search {
-  background-color: rgb(49, 49, 49);
-  border: 1px solid white;
+  background-color: white;
+  border: 1px solid #7303f43a;
   border-radius: 5px;
-  color: white;
+  color: #7303f4;
   font-size: 20px;
   font-weight: 700;
   height: 40px;
   margin-bottom: 10px;
   padding: 10px;
   width: 100%;
+}
+
+.input-search::selection {
+  background-color: #7303f4;
+}
+
+.search-bar-container button {
+  background-color: #f0d033;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.651);
+  height: 40px;
+  margin-bottom: 10px;
+  width: 70%;
+}
+
+.search-bar-container button:active {
+  background-color: #f0d033;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.596);
 }
 
 .radios {
@@ -33,19 +52,4 @@
 
 .radios label {
   font-size: 12px;
-}
-
-.search-bar-container button {
-  background-color: #fcdc35;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.651);
-  height: 40px;
-  margin-bottom: 10px;
-  width: 70%;
-}
-
-.search-bar-container button:active {
-  background-color: #f0d033;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.596);
 }

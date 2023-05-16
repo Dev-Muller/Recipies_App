@@ -1,13 +1,24 @@
 .start-recipe-btn {
-  background-color: rgb(255, 238, 0);
-  border-radius: 999px;
+  background-color: #f0d033;
+  border: none;
+  border-radius: 100px;
   bottom: 0;
-  color: rgb(101, 3, 158);
+  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.8);
+  color: #1b1b1b;
   font-weight: 700;
   left: 50%;
   padding: 1rem;
   position: fixed;
   transform: translate(-50%, -50%);
+}
+
+.start-recipe-btn:disabled {
+  background-color: #7f8083;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.5);
+}
+
+.start-recipe-btn:active {
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.5);
 }
 
 .start-btn-off {

@@ -1,0 +1,8 @@
+.recomended-carousel {
+  width: 320px;
+}
+
+.carousel-foods-img {
+  border: 5px double white;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}

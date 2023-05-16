@@ -6,11 +6,11 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { fetchRecomendation } from '../../services/fetchs_functions';
 import AppContext from '../../context/AppContext';
+import './recomended.css';
 
 function Recomended() {
   const { apiType, setApiType } = useContext(AppContext);
   const [recomendedList, setRecomendedList] = useState([]);
-  const [type, setType] = useState('');
   const history = useHistory();
 
   const runFetchRecomendation = useCallback(async () => {
@@ -19,9 +19,6 @@ function Recomended() {
   }, [apiType]);
 
   useEffect(() => {
-    if (apiType === 'Drink') setType('Meal');
-    if (apiType === 'Meal') setType('Drink');
-
     runFetchRecomendation();
   }, [apiType, history.location.pathname, setApiType, runFetchRecomendation]);
 
@@ -30,14 +27,14 @@ function Recomended() {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 1,
     slidesToScroll: 1,
     centerMode: true,
   };
   const newRecomended = recomendedList.slice(0, limit);
 
   return (
-    <div>
+    <div className="recomended-carousel">
       <Slider { ...settings }>
         {newRecomended.map((item, index) => (
           <div
@@ -45,17 +42,17 @@ function Recomended() {
             key={ index }
           >
             <img
-              className="foods-img"
+              className="carousel-foods-img"
               data-testid={ `${index}-card-img` }
               height="150"
               width="150"
-              src={ item[`str${apiType}Thumb`] }
-              alt={ item[`str${apiType}`] }
+              src={ item[`str${apiType === 'Meal' ? 'Drink' : 'Meal'}Thumb`] }
+              alt={ item[`st${apiType === 'Meal' ? 'Drink' : 'Meal'}`] }
             />
             <p
               data-testid={ `${index}-recommendation-title` }
             >
-              { item[`str${type}`] }
+              { item[`str${apiType === 'Meal' ? 'Drink' : 'Meal'}`] }
             </p>
           </div>
         ))}

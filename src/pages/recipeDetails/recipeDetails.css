@@ -1,3 +1,83 @@
 .details-body {
+  align-items: center;
+  color: #1b1b1b;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  overflow-x: hidden;
+  width: 100vw;
+}
+
+.details-body h1 {
+  align-items: center;
+  background-color: #f0d033;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.616);
   color: white;
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  margin: 0;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.699);
+  width: 100vw;
+}
+
+.link-copied {
+  align-items: center;
+  background-color: white;
+  border: 1px solid #1b1b1b;
+  border-radius: 100px;
+  display: flex;
+  font-size: 12px;
+  height: 20px;
+  padding: 15px;
+  position: absolute;
+  top: 335px;
+}
+
+.details-image {
+  height: 350px;
+  margin-bottom: 25px;
+  width: 100vw;
+}
+
+.details-div {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+}
+
+.details-buttons-div {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.details-instructions {
+  background-color: #2f03f469;
+  border-radius: 10px;
+  color: #1b1b1b;
+  margin-top: 20px;
+  padding: 30px 15px;
+  text-align: justify;
+  width: 90%;
+}
+
+.buttons {
+  border: none;
+  border-radius: 100px;
+  box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.719);
+  height: 50px;
+  width: 50px;
+}
+
+.buttons:active {
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.719);
+}
+
+.details-iframe {
+  height: 250px;
+  margin: 25px auto;
+  width: 100%;
 }

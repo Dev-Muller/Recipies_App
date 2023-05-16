@@ -19,7 +19,6 @@ function RecipeDetails() {
   const [embed, setEmbed] = useState('');
   const [isShareClicked, setIsShareClicked] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
-  const [recipeData, setRecipeData] = useState([]);
 
   const getStoredFavorites = () => {
     if (!JSON.parse(localStorage.getItem('favoriteRecipes'))) {
@@ -72,6 +71,7 @@ function RecipeDetails() {
   };
 
   useEffect(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteToStore));
     if (JSON.parse(localStorage.getItem('favoriteRecipes'))) {
       const favorited = JSON.parse(localStorage.getItem('favoriteRecipes'));
       const favoriteFound = favorited.find((favorite) => favorite.id === recipeId);
@@ -81,7 +81,39 @@ function RecipeDetails() {
         setIsFavorited(false);
       }
     }
-  }, [recipeId]);
+  }, [recipeId, favoriteToStore]);
+
+  const handleDoneRecipes = () => {
+    const type = history.location.pathname.split('/')[1];
+    const dateNow = new Date();
+    const {
+      idDrink, idMeal, strCategory, strAlcoholic, strArea,
+      strMeal, strDrink, strDrinkThumb, strMealThumb, strTags,
+    } = recipe[0];
+
+    let newType = '';
+    let newTags = [];
+    if (type === 'meals') { newType = 'meal'; }
+    if (type === 'drinks') { newType = 'drink'; }
+    if (type === 'meals' && strTags !== null) {
+      newTags.push(...strTags.split(','));
+    }
+
+    if (strTags === null) newTags = [];
+    console.log(newTags);
+    const newDone = {
+      id: (apiType === 'Meal' ? idMeal : idDrink),
+      nationality: strArea || '',
+      name: (apiType === 'Meal' ? strMeal : strDrink),
+      category: strCategory || '',
+      image: (apiType === 'Meal' ? strMealThumb : strDrinkThumb),
+      tags: (apiType === 'Meal' ? newTags : []),
+      alcoholicOrNot: strAlcoholic || '',
+      type: newType,
+      doneDate: dateNow.toISOString(),
+    };
+    localStorage.setItem('doneRecipes', JSON.stringify([newDone]));
+  };
 
   const handleFavorites = async () => {
     const type = history.location.pathname.split('/')[1];
@@ -91,6 +123,7 @@ function RecipeDetails() {
       idDrink, idMeal, strCategory, strAlcoholic, strArea,
       strMeal, strDrink, strDrinkThumb, strMealThumb,
     } = recipeFound[0];
+
     const newFavorite = {
       id: (apiType === 'Meal' ? idMeal : idDrink),
       type: type.slice(0, limit),
@@ -114,46 +147,53 @@ function RecipeDetails() {
     });
   };
 
-  useEffect(() => {
-    const id = history.location.pathname.split('/')[2];
-    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteToStore));
-    const recipeObj = {
-      [id]: [],
-    };
-    setRecipeData(recipeObj);
-  }, [favoriteToStore, apiType, recipe, history.location.pathname]);
-
   return (
     <div className="details-body">
       <h1>Recipe Details</h1>
-      {isShareClicked && <h1>Link copied!</h1> }
-      <button
-        onClick={ handleShare }
-      >
-        <img
-          data-testid="share-btn"
-          src={ shareIcon }
-          alt="btn"
-        />
-      </button>
-      <button
-        onClick={ handleFavorites }
-      >
-        <img
-          data-testid="favorite-btn"
-          src={ !isFavorited ? whiteHeartIcon : blackHeartIcon }
-          alt="btn"
-        />
-      </button>
       {recipe?.map((details, index) => (
-        <div key={ index }>
+        <div
+          className="details-div"
+          key={ index }
+        >
           <img
+            className="details-image"
             data-testid="recipe-photo"
             width="220px"
             height="220px"
             src={ details[`str${apiType}Thumb`] }
             alt={ details[`str${apiType}`] }
           />
+          {isShareClicked && (
+            <span
+              className="link-copied"
+            >
+              Link copied!
+
+            </span>
+          ) }
+          <div className="details-buttons-div">
+            <button
+              className="buttons"
+              onClick={ handleShare }
+            >
+              <img
+                className="btn-share"
+                data-testid="share-btn"
+                src={ shareIcon }
+                alt="btn"
+              />
+            </button>
+            <button
+              className="buttons"
+              onClick={ handleFavorites }
+            >
+              <img
+                data-testid="favorite-btn"
+                src={ !isFavorited ? whiteHeartIcon : blackHeartIcon }
+                alt="btn"
+              />
+            </button>
+          </div>
           <h2
             data-testid="recipe-title"
           >
@@ -166,15 +206,18 @@ function RecipeDetails() {
               ? details.strCategory : details.strAlcoholic }
           </p>
           <IngredientsList />
+          <h1>Instructions</h1>
           <p
+            className="details-instructions"
             data-testid="instructions"
           >
             {details.strInstructions}
           </p>
           {history.location.pathname.includes('/meals') && (
             <iframe
+              className="details-iframe"
               data-testid="video"
-              width="560"
+              width="360"
               height="315"
               src={ embed }
               title="YouTube video player"
@@ -183,7 +226,7 @@ function RecipeDetails() {
           <Recomended />
         </div>
       ))}
-      <StartRecipeButton recipeData={ recipeData } />
+      <StartRecipeButton handleDoneRecipes={ handleDoneRecipes } />
     </div>
   );
 }

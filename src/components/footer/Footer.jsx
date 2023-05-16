@@ -16,6 +16,7 @@ function Footer() {
       <Link to="drinks">
         <button
           onClick={ handleClick }
+          className="meals-and-drinks-button"
         >
           <img
             className="drink-icon"
@@ -28,6 +29,7 @@ function Footer() {
       <Link to="/meals">
         <button
           onClick={ handleClick }
+          className="meals-and-drinks-button"
         >
           <img
             className="meal-icon"
