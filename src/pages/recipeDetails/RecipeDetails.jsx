@@ -83,35 +83,34 @@ function RecipeDetails() {
     }
   }, [recipeId, favoriteToStore]);
 
-  const handleDoneRecipes = () => {
+  const handleDoneRecipes = async () => {
     const type = history.location.pathname.split('/')[1];
     const dateNow = new Date();
+    // const recipeFound = await fetchById(type, recipeId);
     const {
       idDrink, idMeal, strCategory, strAlcoholic, strArea,
       strMeal, strDrink, strDrinkThumb, strMealThumb, strTags,
     } = recipe[0];
-
     let newType = '';
     let newTags = [];
-    if (type === 'meals') { newType = 'meal'; }
-    if (type === 'drinks') { newType = 'drink'; }
-    if (type === 'meals' && strTags !== null) {
-      newTags.push(...strTags.split(','));
-    }
 
+    if (type === 'meals') newType = 'meal';
+    if (type === 'drinks') newType = 'drink';
+    if (strTags !== null) newTags = strTags?.split(',');
     if (strTags === null) newTags = [];
-    console.log(newTags);
+
     const newDone = {
-      id: (apiType === 'Meal' ? idMeal : idDrink),
+      id: (type === 'meals' ? idMeal : idDrink),
       nationality: strArea || '',
-      name: (apiType === 'Meal' ? strMeal : strDrink),
+      name: (type === 'meals' ? strMeal : strDrink),
       category: strCategory || '',
-      image: (apiType === 'Meal' ? strMealThumb : strDrinkThumb),
-      tags: (apiType === 'Meal' ? newTags : []),
+      image: (type === 'meals' ? strMealThumb : strDrinkThumb),
+      tags: (type === 'meals' ? newTags : []),
       alcoholicOrNot: strAlcoholic || '',
       type: newType,
       doneDate: dateNow.toISOString(),
     };
+
     localStorage.setItem('doneRecipes', JSON.stringify([newDone]));
   };
 
