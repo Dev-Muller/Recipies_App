@@ -89,7 +89,7 @@ function DoneRecipes() {
                     data-testid={ `${index}-horizontal-share-btn` }
                   />
                 </button>
-                {recipe.tags.slice(0, 2).map((tag, tagIndex) => (
+                {recipe.tags?.map((tag, tagIndex) => (
                   <p
                     key={ `${tag}${tagIndex}` }
                     data-testid={ `${index}-${tag}-horizontal-tag` }
