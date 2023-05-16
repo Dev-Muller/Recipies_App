@@ -118,7 +118,9 @@ function IngredientsList() {
   }, [ingredientSaved, history.location.pathname]);
 
   return (
-    <div>
+    <div
+      data-testid="ingredients-List-container"
+    >
       <h1>ingredients</h1>
       <ul
         className="ingredients-list"

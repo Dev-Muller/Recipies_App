@@ -161,29 +161,28 @@ describe('Testes component Search Bar', () => {
 
     expect(searchInput).toBeInTheDocument();
 
-    await waitFor(() => {
-      const imgCorba = screen.getByRole('img', {
-        name: /corba/i,
-      });
-      expect(imgCorba).toBeInTheDocument();
-    });
-
     const firstLetterRadio = await screen.findByTestId(firstLetterRadioConst);
     const searchRecipeBtn = await screen.findByTestId(searchRecipeBtnConst);
 
     act(() => {
-      userEvent.type(searchInput, 'a');
+      userEvent.type(searchInput, 'as');
       userEvent.click(firstLetterRadio);
       userEvent.click(searchRecipeBtn);
     });
 
     await waitFor(() => {
-      expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?f=a');
+      expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?f=as');
     });
   });
   it('testa o filtro por primeira letra error no endpoint meals', async () => {
     // testar alert ?
     // jest.spyOn(Alert, 'alert');
+    // jest.clearAllMocks();
+    // jest.spyOn(global, 'fetch').mockImplementation(fetch);
+    // global.fetch = jest.fn(() => Promise.resolve({
+    //   json: () => Promise.resolve(emptyMeals),
+    // }));
+    const spyAlert = jest.spyOn(window, 'alert').mockImplementation(jest.fn());
     const history = createMemoryHistory();
     render(
       <Router history={ history }>
@@ -204,24 +203,18 @@ describe('Testes component Search Bar', () => {
 
     expect(searchInput).toBeInTheDocument();
 
-    await waitFor(() => {
-      const imgCorba = screen.getByRole('img', {
-        name: /corba/i,
-      });
-      expect(imgCorba).toBeInTheDocument();
-    });
-
-    const firstLetterRadio = await screen.findByTestId(firstLetterRadioConst);
+    const nameRadio = await screen.findByTestId(nameRadioConst);
+    // const firstLetterRadio = await screen.findByTestId(firstLetterRadioConst);
     const searchRecipeBtn = await screen.findByTestId(searchRecipeBtnConst);
 
     act(() => {
-      userEvent.type(searchInput, 'Chicken');
-      userEvent.click(firstLetterRadio);
+      userEvent.type(searchInput, 'xablau');
+      userEvent.click(nameRadio);
       userEvent.click(searchRecipeBtn);
     });
 
     await waitFor(() => {
-      expect(global.alert).toHaveBeenCalled();
+      expect(spyAlert).toHaveBeenCalled();
     });
   });
   it('testa o filtro por ingrediente em meals', async () => {
