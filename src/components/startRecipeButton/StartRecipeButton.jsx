@@ -129,5 +129,5 @@ function StartRecipeButton({ handleDoneRecipes }) {
 StartRecipeButton.propTypes = {
   handleDoneRecipes: PropTypes.func.isRequired,
 };
-// mod
+// modification
 export default StartRecipeButton;
