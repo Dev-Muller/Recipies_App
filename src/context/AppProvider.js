@@ -17,11 +17,12 @@ function AppProvider({ children }) {
   useEffect(() => {
     const verifyApiData = () => {
       if (apiData === null) {
+        console.log('alert');
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
     };
     verifyApiData();
-  });
+  }, [apiData]);
 
   const values = useMemo(() => ({
     login,
