@@ -120,7 +120,9 @@ function IngredientsList() {
   return (
     <div>
       <h1>ingredients</h1>
-      <ul>
+      <ul
+        className="ingredients-list"
+      >
         {ingredientsAndMeasure?.map((ingredient, ingredientsIndex) => (
           <li
             data-testid={ `${ingredientsIndex}-ingredient-name-and-measure` }
@@ -135,12 +137,15 @@ function IngredientsList() {
                     ? 'item-checked' : 'item-unchecked' }
                 >
                   <input
+                    className="checkbox"
                     id={ ingredient[0] }
                     type="checkbox"
                     onChange={ (event) => handleChange(event) }
                     checked={ ingredientSaved?.includes(ingredient[0]) }
                   />
-                  <p>
+                  <p
+                    className="ingredients-inner-text"
+                  >
                     {ingredient[0]}
                     {' '}
                     -

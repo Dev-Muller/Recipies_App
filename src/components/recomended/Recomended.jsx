@@ -6,6 +6,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { fetchRecomendation } from '../../services/fetchs_functions';
 import AppContext from '../../context/AppContext';
+import './recomended.css';
 
 function Recomended() {
   const { apiType, setApiType } = useContext(AppContext);
@@ -26,14 +27,14 @@ function Recomended() {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 1,
     slidesToScroll: 1,
     centerMode: true,
   };
   const newRecomended = recomendedList.slice(0, limit);
 
   return (
-    <div>
+    <div className="recomended-carousel">
       <Slider { ...settings }>
         {newRecomended.map((item, index) => (
           <div
@@ -41,7 +42,7 @@ function Recomended() {
             key={ index }
           >
             <img
-              className="foods-img"
+              className="carousel-foods-img"
               data-testid={ `${index}-card-img` }
               height="150"
               width="150"

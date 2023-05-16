@@ -1,7 +1,25 @@
+.ingredients-list {
+  list-style: none;
+  margin-top: 20px;
+}
+
 .item-checked {
+  align-items: center;
+  display: flex;
+  margin-bottom: 10px;
   text-decoration: line-through solid black;
+
 }
 
 .item-unchecked {
+  align-items: center;
+  display: flex;
+  margin-bottom: 10px;
   text-decoration: none;
+  width: 200px;
+}
+
+.ingredients-inner-text {
+  margin-left: 10px;
+  margin-top: 15px;
 }

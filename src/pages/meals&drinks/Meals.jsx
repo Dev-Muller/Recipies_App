@@ -43,8 +43,8 @@ function Meals() {
               <img
                 className="foods-img"
                 data-testid={ `${index}-card-img` }
-                height="120"
-                width="120"
+                height="100"
+                width="100"
                 src={ meal.strMealThumb }
                 alt={ meal.strMeal }
               />

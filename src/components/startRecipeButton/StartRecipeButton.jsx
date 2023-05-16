@@ -1,9 +1,10 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import './startRecipeButton.css';
 import { Link, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import AppContext from '../../context/AppContext';
 
-function StartRecipeButton() {
+function StartRecipeButton({ handleDoneRecipes }) {
   const inProgress = 'in-progress';
   const history = useHistory();
   const id = history.location.pathname.split('/')[2];
@@ -92,6 +93,9 @@ function StartRecipeButton() {
 
   const handleClick = () => {
     getStoredStarted();
+    if (finishRecipe) {
+      handleDoneRecipes();
+    }
   };
   const limit = 1;
   const path = history.location.pathname.split('/').slice(0, limit).join('/');
@@ -101,10 +105,16 @@ function StartRecipeButton() {
         ? `${path}/done-recipes` : `${history.location.pathname}/in-progress` }
     >
       <button
-        className={ doneRecipe ? 'start-btn-off' : 'start-recipe-btn' }
-        data-testid={ finishRecipe ? 'finish-recipe-btn' : 'start-recipe-btn' }
+        className={
+          finishRecipe
+          && !continueRecipe
+          && doneRecipe
+            ? 'start-btn-off' : 'start-recipe-btn'
+        }
+        data-testid={ continueRecipe
+          && !finishRecipe ? 'start-recipe-btn' : 'finish-recipe-btn' }
         onClick={ handleClick }
-        disabled={ !isAllChecked }
+        disabled={ finishRecipe && !isAllChecked }
       >
         {continueRecipe && 'Continue Recipe'}
         {finishRecipe && !doneRecipe && !continueRecipe && 'Finish Recipe'}
@@ -113,5 +123,9 @@ function StartRecipeButton() {
     </Link>
   );
 }
+
+StartRecipeButton.propTypes = {
+  handleDoneRecipes: PropTypes.func.isRequired,
+};
 
 export default StartRecipeButton;
