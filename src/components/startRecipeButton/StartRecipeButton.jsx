@@ -111,13 +111,15 @@ function StartRecipeButton({ handleDoneRecipes }) {
           && doneRecipe
             ? 'start-btn-off' : 'start-recipe-btn'
         }
-        data-testid={ continueRecipe
-          && !finishRecipe ? 'start-recipe-btn' : 'finish-recipe-btn' }
+        data-testid={
+          !doneRecipe && !finishRecipe
+            ? 'start-recipe-btn' : 'finish-recipe-btn'
+        }
         onClick={ handleClick }
         disabled={ finishRecipe && !isAllChecked }
       >
-        {continueRecipe && 'Continue Recipe'}
-        {finishRecipe && !doneRecipe && !continueRecipe && 'Finish Recipe'}
+        {continueRecipe && !finishRecipe && 'Continue Recipe'}
+        {finishRecipe && !continueRecipe && 'Finish Recipe'}
         {!continueRecipe && !finishRecipe && 'Start Recipe'}
       </button>
     </Link>

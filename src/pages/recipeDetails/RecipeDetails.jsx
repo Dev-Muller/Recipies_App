@@ -98,6 +98,7 @@ function RecipeDetails() {
     if (type === 'meals' && strTags !== null) {
       newTags.push(...strTags.split(','));
     }
+
     if (strTags === null) newTags = [];
     console.log(newTags);
     const newDone = {
