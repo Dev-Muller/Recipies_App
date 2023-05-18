@@ -195,15 +195,29 @@ describe('Testa as funcionalidadea da página Done Recipes', () => {
 
   it('Testa se ao clicar em uma receita, é redirecionado para a tela de detalhes.', () => {
     renderWithRouter(<App />, route);
+
     const recipe1 = screen.getByText('Corba');
     expect(recipe1).toBeInTheDocument();
     userEvent.click(recipe1);
     const { pathname } = window.location;
     expect(pathname).toBe('/comidas/52977');
+
+    const recipe2 = screen.getByText('Sushi');
+    expect(recipe2).toBeInTheDocument();
+    userEvent.click(recipe2);
+    const { pathname } = window.location;
+    expect(pathname).toBe('/comidas/52977');
+
+    const recipe3 = screen.getByText('A1');
+    expect(recipe3).toBeInTheDocument();
+    userEvent.click(recipe3);
+    const { pathname } = window.location;
+    expect(pathname).toBe('/comidas/52977'); 
   });
 
   it('Testa se ao não clicar em nenhum filtro e clicar em uma receita, é redirecionado para a tela de detalhes.', () => {
     renderWithRouter(<App />, route);
+
     const recipe1 = screen.getByText('Corba');
     expect(recipe1).toBeInTheDocument();
     userEvent.click(recipe1);
