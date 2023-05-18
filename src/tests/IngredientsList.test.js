@@ -154,4 +154,101 @@ describe('IngredientsList', () => {
       expect(checkbox).not.toBeChecked();
     });
   });
+
+  test('deve verificar se o botão "Selecionar tudo" é desabilitado quando todos os ingredientes estiverem selecionados', () => {
+    const ingredients = [
+      ['Ingredient 1', 'Measure 1'],
+      ['Ingredient 2', 'Measure 2'],
+      ['Ingredient 3', 'Measure 3'],
+    ];
+
+    render(
+      <IngredientsList />,
+      {
+        wrapper: MemoryRouter,
+      },
+    );
+
+    const selectAllButton = screen.getByRole('button', { name: 'Select All' });
+    fireEvent.click(selectAllButton);
+
+    ingredients.forEach(([ingredient]) => {
+      const checkbox = screen.getByLabelText(ingredient);
+      expect(checkbox).toBeChecked();
+    });
+
+    expect(selectAllButton).toBeDisabled();
+  });
+
+  test('deve verificar se o botão "Desmarcar tudo" é desabilitado quando nenhum ingrediente estiver selecionado', () => {
+    render(
+      <IngredientsList />,
+      {
+        wrapper: MemoryRouter,
+      },
+    );
+
+    const unselectAllButton = screen.getByRole('button', { name: 'Unselect All' });
+    expect(unselectAllButton).toBeDisabled();
+  });
+
+  test('deve verificar se o botão "Desmarcar tudo" é habilitado quando pelo menos um ingrediente estiver selecionado', () => {
+    const ingredients = [
+      ['Ingredient 1', 'Measure 1'],
+      ['Ingredient 2', 'Measure 2'],
+      ['Ingredient 3', 'Measure 3'],
+    ];
+
+    render(
+      <IngredientsList />,
+      {
+        wrapper: MemoryRouter,
+      },
+    );
+
+    ingredients.forEach(([ingredient]) => {
+      const checkbox = screen.getByLabelText(ingredient);
+      fireEvent.click(checkbox);
+    });
+
+    const unselectAllButton = screen.getByRole('button', { name: 'Unselect All' });
+    expect(unselectAllButton).toBeEnabled();
+  });
+
+  test('deve verificar se o botão "Selecionar tudo" é habilitado quando pelo menos um ingrediente não estiver selecionado', () => {
+    render(
+      <IngredientsList />,
+      {
+        wrapper: MemoryRouter,
+      },
+    );
+
+    const selectAllButton = screen.getByRole('button', { name: 'Select All' });
+    expect(selectAllButton).toBeEnabled();
+  });
+
+  test('deve verificar se o botão "Desmarcar tudo" é desabilitado quando todos os ingredientes estiverem selecionados', () => {
+    const ingredients = [
+      ['Ingredient 1', 'Measure 1'],
+      ['Ingredient 2', 'Measure 2'],
+      ['Ingredient 3', 'Measure 3'],
+    ];
+
+    render(
+      <IngredientsList />,
+      {
+        wrapper: MemoryRouter,
+      },
+    );
+
+    const selectAllButton = screen.getByRole('button', { name: 'Select All' });
+    fireEvent.click(selectAllButton);
+
+    ingredients.forEach(([ingredient]) => {
+      const checkbox = screen.getByLabelText(ingredient);
+      expect(checkbox).toBeChecked();
+    });
+
+    expect(selectAllButton).toBeDisabled();
+  });
 });

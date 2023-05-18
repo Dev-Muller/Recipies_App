@@ -92,4 +92,24 @@ describe('Componente Recomended', () => {
       expect(titleElement).toBeInTheDocument();
     });
   });
+
+  it('deve renderizar a quantidade correta de receitas recomendados', () => {
+    const recommendedListElement = screen.getByTestId('recommended-list');
+    const recommendedProductElements = within(recommendedListElement).getAllByTestId(/recommended-product/i);
+    expect(recommendedProductElements.length).toEqual(recommendedRecipes.length);
+  });
+
+  it('deve processar apenas receitas recomendadas do mesmo tipo (MEALS)', () => {
+    const recommendedListElement = screen.getByTestId('recommended-list');
+    const recommendedProductElements = within(recommendedListElement).getAllByTestId(/recommended-product/i);
+
+    recommendedProductElements.forEach((recommendedProductElement) => {
+      const imageElement = within(recommendedProductElement)
+        .getByAltText(recommendedRecipe.strMeal);
+      expect(imageElement).toBeInTheDocument();
+
+      const titleElement = within(recommendedProductElement).getByRole('heading', { name: recommendedRecipe.strMeal });
+      expect(titleElement).toBeInTheDocument();
+    });
+  });
 });

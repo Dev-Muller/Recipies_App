@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import App from '../App';
+import { drinks } from '../../cypress/mocks/drinks';
+import { meals } from '../../cypress/mocks/meals';
 
 describe('Testa as funcionalidadea da página Favorite Recipes', () => {
   const setLocalStorage = (key, data) => {
@@ -16,6 +18,15 @@ describe('Testa as funcionalidadea da página Favorite Recipes', () => {
       ...render(<Router history={ history }>{component}</Router>), history,
     });
   };
+
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: () => Promise.resolve(
+        meals,
+        drinks,
+      ),
+    });
+  });
 
   const recipes = [
     {
