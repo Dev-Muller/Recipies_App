@@ -88,6 +88,7 @@ describe('Testes component Profile', () => {
 
     expect(history.location.pathname).toBe('/favorite-recipes');
   });
+
   it('testa se ao clicar no botao de logout leva a rota home', async () => {
     localStorage.setItem('user', JSON.stringify(mockUserData));
     const history = createMemoryHistory();
