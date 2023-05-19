@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -6,6 +5,8 @@ import AppContext from '../context/AppContext';
 import Recomended from '../components/recomended/Recomended';
 
 describe('Componente Recomended', () => {
+  const recommendeList = 'recommended-list';
+
   const recipe = {
     idMeal: '52771',
     strMeal: 'Spicy Arrabiata Penne',
@@ -48,7 +49,7 @@ describe('Componente Recomended', () => {
   });
 
   it('Testa se renderiza a lista de recomendados', () => {
-    const recommendedListElement = screen.getByTestId('recommended-list');
+    const recommendedListElement = screen.getByTestId(recommendeList);
     expect(recommendedListElement).toBeInTheDocument();
   });
 
@@ -69,18 +70,17 @@ describe('Componente Recomended', () => {
     const detailsButtonElement = screen.getByRole('button', { name: /ver detalhes/i });
     userEvent.click(detailsButtonElement);
 
-    // Check if the redirection is correct
     expect(window.location.pathname).toEqual(`/details/${recommendedRecipes[0].idMeal}`);
   });
 
   it('deve renderizar a quantidade correta de receitas recomendados', () => {
-    const recommendedListElement = screen.getByTestId('recommended-list');
+    const recommendedListElement = screen.getByTestId(recommendeList);
     const recommendedProductElements = within(recommendedListElement).getAllByTestId(/recommended-product/i);
     expect(recommendedProductElements.length).toEqual(recommendedRecipes.length);
   });
 
   it('deve processar apenas receitas recomendadas do mesmo tipo (MEALS)', () => {
-    const recommendedListElement = screen.getByTestId('recommended-list');
+    const recommendedListElement = screen.getByTestId(recommendeList);
     const recommendedProductElements = within(recommendedListElement).getAllByTestId(/recommended-product/i);
 
     recommendedProductElements.forEach((recommendedProductElement) => {
@@ -94,13 +94,13 @@ describe('Componente Recomended', () => {
   });
 
   it('deve renderizar a quantidade correta de receitas recomendados', () => {
-    const recommendedListElement = screen.getByTestId('recommended-list');
+    const recommendedListElement = screen.getByTestId(recommendeList);
     const recommendedProductElements = within(recommendedListElement).getAllByTestId(/recommended-product/i);
     expect(recommendedProductElements.length).toEqual(recommendedRecipes.length);
   });
 
   it('deve processar apenas receitas recomendadas do mesmo tipo (MEALS)', () => {
-    const recommendedListElement = screen.getByTestId('recommended-list');
+    const recommendedListElement = screen.getByTestId(recommendeList);
     const recommendedProductElements = within(recommendedListElement).getAllByTestId(/recommended-product/i);
 
     recommendedProductElements.forEach((recommendedProductElement) => {

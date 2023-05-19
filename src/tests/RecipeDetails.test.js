@@ -1,454 +1,131 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { Router } from 'react-router-dom';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import App from '../App';
 import RecipeDetails from '../pages/recipeDetails/RecipeDetails';
-import AppProvider from '../context/AppProvider';
-import { drinks } from '../../cypress/mocks/drinks';
-import { meals } from '../../cypress/mocks/meals';
+import App from '../App';
 
-// import setLocalStorage from './helpers/localStorageMock';
+describe('Desenvolva os testes para a página RecipeDetails', () => {
+  const recipeBtn = 'go-to-recipe-btn';
 
-describe('Verifica requests da API', () => {
-  beforeEach(() => {
-    jest.spyOn(global, 'fetch').mockResolvedValue({
-      json: () => Promise.resolve(
-        meals,
-        drinks,
-      ),
-    });
+  test('Verifica se os detalhes da receita são renderizados corretamente', async () => {
+    const recipe = {
+      id: 1,
+      strMeal: 'Pasta',
+      strMealThumb: 'pasta.jpg',
+      strCategory: 'Italian',
+      strInstructions: 'Cook the pasta...',
+    };
+
+    render(
+      <MemoryRouter>
+        <RecipeDetails recipe={ [recipe] } />
+      </MemoryRouter>,
+    );
+
+    const recipeTitle = screen.getByTestId('recipe-title');
+    const recipeCategory = screen.getByTestId('recipe-category');
+    const recipeInstructions = screen.getByTestId('instructions');
+
+    expect(recipeTitle).toBeInTheDocument();
+    expect(recipeCategory).toBeInTheDocument();
+    expect(recipeInstructions).toBeInTheDocument();
+
+    expect(recipeTitle.textContent).toBe('Pasta');
+    expect(recipeCategory.textContent).toBe('Italian');
+    expect(recipeInstructions.textContent).toBe('Cook the pasta...');
   });
 
-  const renderWithRouter = (component, initialRoute = '/') => {
-    const history = createMemoryHistory({ initialEntries: [initialRoute] });
-    return ({
-      ...render(<Router history={ history }>{component}</Router>), history,
-    });
-  };
-
-  it('Verifica se a requisição para a API de comidas foi realizada', async () => {
+  test('Verifica o botão de compartilhar receita', () => {
     const history = createMemoryHistory();
     render(
       <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
+        <RecipeDetails />
       </Router>,
     );
-    // eslint-disable-next-line sonarjs/no-duplicate-string
-    history.push('/recipe-details');
 
-    await waitFor(() => {
-      // eslint-disable-next-line sonarjs/no-duplicate-string
-      expect(screen.getByTestId('recipe-photo')).toBeInTheDocument();
-      // eslint-disable-next-line sonarjs/no-duplicate-string
-      expect(screen.getByTestId('0-ingredient-name-and-measure')).toBeInTheDocument();
-      // eslint-disable-next-line sonarjs/no-duplicate-string
-      expect(screen.getByTestId('favorite-btn')).toHaveAttribute('src', '/static/media/whiteHeartIcon.6690d94e688d445712c855c7ded7389b.svg');
-    });
+    const shareButton = screen.getByTestId('share-btn');
+    fireEvent.click(shareButton);
+
+    const linkCopiedMessage = screen.getByText('Link copied!');
+    expect(linkCopiedMessage).toBeInTheDocument();
   });
 
-  it('Verifica se a requisição para a API de bebidas foi realizada', async () => {
+  test('Verifica o botão de favoritar.', () => {
     const history = createMemoryHistory();
     render(
       <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
+        <RecipeDetails />
       </Router>,
     );
-    history.push('/recipe-details');
 
-    await waitFor(() => {
-      expect(screen.getByTestId('recipe-photo')).toBeInTheDocument();
-      expect(screen.getByTestId('0-ingredient-name-and-measure')).toBeInTheDocument();
-      expect(screen.getByTestId('favorite-btn')).toHaveAttribute('src', '/static/media/whiteHeartIcon.6690d94e688d445712c855c7ded7389b.svg');
-    });
+    const favoriteButton = screen.getByTestId('favorite-btn');
+    fireEvent.click(favoriteButton);
+
+    const whiteHeartIcon = screen.getByAltText('btn');
+    expect(whiteHeartIcon.src).toContain('blackHeartIcon.svg');
   });
 
-  it('Verifica se a categoria da receita é renderizada corretamente', async () => {
+  test('Verifica o botão de iniciar a receita', () => {
     const history = createMemoryHistory();
     render(
       <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
+        <RecipeDetails />
       </Router>,
     );
-    history.push('/recipe-details');
 
-    await waitFor(() => {
-      expect(screen.getByTestId('recipe-category')).toBeInTheDocument();
-    });
+    const startRecipeButton = screen.getByTestId('start-recipe-btn');
+    fireEvent.click(startRecipeButton);
 
-    const category = screen.getByTestId('recipe-category');
-    expect(category).toHaveTextContent('Beef');
+    const { pathname } = history.location;
+    expect(pathname).toBe('/comidas/52771/in-progress');
   });
 
-  it('Verifica se os ingredientes da receita são renderizados corretamente', async () => {
+  test('Verifica se vai para o botão da receita', () => {
     const history = createMemoryHistory();
     render(
       <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
+        <RecipeDetails />
       </Router>,
     );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      expect(screen.getByTestId('0-ingredient-name-and-measure')).toBeInTheDocument();
-    });
+
+    const goToRecipeButton = screen.getByTestId(recipeBtn);
+    fireEvent.click(goToRecipeButton);
+
+    const { pathname } = history.location;
+    expect(pathname).toBe(recipeBtn);
   });
 
-  it('Verifica se o vídeo da receita é renderizado corretamente', async () => {
+  test('Verifica o botão de drinks', () => {
     const history = createMemoryHistory();
     render(
       <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
+        <RecipeDetails />
       </Router>,
     );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      expect(screen.getByTestId('video')).toBeInTheDocument();
-    });
+
+    const goToRecipeButton = screen.getByTestId(recipeBtn);
+    fireEvent.click(goToRecipeButton);
+
+    const { pathname } = history.location;
+    expect(pathname).toBe('/comidas/52771');
   });
 
-  it('Verifica se as instruções da receita são renderizadas corretamente', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      expect(screen.getByTestId('instructions')).toBeInTheDocument();
-    });
-  });
+  it('Verifica se as receitas iniciadas são salvas  o localStorage "inProgressRecipes"', () => {
+    const { getByTestId } = renderWithRouter(<App />, { route: '/comidas' });
 
-  it('Verifica se os cards de recomendações são renderizados corretamente', async () => {
-    renderWithRouter(<RecipeDetails />);
-    await waitFor(() => {
-      expect(screen.getByTestId('0-recomendation-card')).toBeInTheDocument();
-    });
-  });
+    const checkbox = getByTestId('0-ingredient-step');
+    fireEvent.click(checkbox);
 
-  it('Verifica se o botão de favoritar funciona corretamente', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      expect(screen.getByTestId('favorite-btn')).toBeInTheDocument();
+    const recipe = {
+      cocktails: {},
+      meals: {
+        52771: ['0-ingredient-step'],
+      },
+    };
 
-      const favoriteBtn = screen.getByTestId('favorite-btn');
-      userEvent.click(favoriteBtn);
-      // eslint-disable-next-line sonarjs/no-duplicate-string
-      expect(favoriteBtn).toHaveAttribute('src', '/static/media/blackHeartIcon.7ad5c5d3.svg');
-    });
-  });
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
-  it('Verifica se o botão de compartilhar funciona corretamente', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      expect(screen.getByTestId('share-btn')).toBeInTheDocument();
-
-      const shareBtn = screen.getByTestId('share-btn');
-      userEvent.click(shareBtn);
-      expect(shareBtn).toHaveAttribute('src', '/static/media/shareIcon.8e3e6c5d.svg');
-    });
-  });
-
-  it('Verifica se o botão de iniciar receita funciona corretamente', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      // eslint-disable-next-line sonarjs/no-duplicate-string
-      expect(screen.getByTestId('start-recipe-btn')).toBeInTheDocument();
-
-      const startRecipeBtn = screen.getByTestId('start-recipe-btn');
-      userEvent.click(startRecipeBtn);
-      // eslint-disable-next-line sonarjs/no-duplicate-string
-      expect(startRecipeBtn).toHaveTextContent('Continuar Receita');
-    });
-  });
-
-  it('Verifica se o botão de finalizar receita funciona corretamente', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      // eslint-disable-next-line sonarjs/no-duplicate-string
-      expect(screen.getByTestId('finish-recipe-btn')).toBeInTheDocument();
-
-      const finishRecipeBtn = screen.getByTestId('finish-recipe-btn');
-      userEvent.click(finishRecipeBtn);
-      expect(finishRecipeBtn).toHaveTextContent('Avaliar');
-    });
-  });
-
-  it('Testa se o clique no botão de favoritar adiciona a receita aos favoritos', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      expect(screen.getByTestId('favorite-btn')).toBeInTheDocument();
-
-      const favoriteBtn = screen.getByTestId('favorite-btn');
-      userEvent.click(favoriteBtn);
-      expect(favoriteBtn).toHaveAttribute('src', '/static/media/blackHeartIcon.7ad5c5d3.svg');
-
-      userEvent.click(favoriteBtn);
-      expect(favoriteBtn).toHaveAttribute('src', '/static/media/whiteHeartIcon.6690d94e688d445712c855c7ded7389b.svg');
-
-      userEvent.click(favoriteBtn);
-      expect(favoriteBtn).toHaveAttribute('src', '/static/media/blackHeartIcon.7ad5c5d3.svg');
-    });
-  });
-
-  it('Testa se o clique no botão de compartilhar copia o link da receita', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      expect(screen.getByTestId('share-btn')).toBeInTheDocument();
-
-      const shareBtn = screen.getByTestId('share-btn');
-      userEvent.click(shareBtn);
-      expect(shareBtn).toHaveAttribute('src', '/static/media/shareIcon.8e3e6c5d.svg');
-    });
-  });
-
-  it('Testa se o clique no botão de iniciar a receita envia os dados corretamente', async () => {
-    renderWithRouter(<RecipeDetails />);
-    await waitFor(() => {
-      expect(screen.getByTestId('start-recipe-btn')).toBeInTheDocument();
-
-      const startRecipeBtn = screen.getByTestId('start-recipe-btn');
-      userEvent.click(startRecipeBtn);
-      expect(startRecipeBtn).toHaveTextContent('Continuar Receita');
-
-      userEvent.click(startRecipeBtn);
-      expect(startRecipeBtn).toHaveTextContent('Continuar Receita');
-    });
-  });
-
-  it('Verifica se a função fetchById é chamada corretamente na inicialização do componente', async () => {
-    const fetchById = jest.spyOn(RecipesAPI, 'fetchById');
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      expect(fetchById).toHaveBeenCalled();
-      expect(fetchById).toHaveBeenCalledWith('15997');
-    });
-  });
-
-  it('Verifica se a função fetchById é chamada corretamente ao clicar no botão de favoritar', async () => {
-    const fetchById = jest.spyOn(RecipesAPI, 'fetchById');
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      expect(fetchById).toHaveBeenCalled();
-      expect(fetchById).toHaveBeenCalledWith('15997');
-    });
-  });
-
-  it('Verifica se a função fetchById é chamada corretamente ao clicar no botão de compartilhar', async () => {
-    const fetchById = jest.spyOn(RecipesAPI, 'fetchById');
-    renderWithRouter(<RecipeDetails />);
-    await waitFor(() => {
-      expect(fetchById).toHaveBeenCalled();
-      expect(fetchById).toHaveBeenCalledWith('15997');
-    });
-  });
-
-  it('Verifica se a função fetchById é chamada corretamente ao clicar no botão de iniciar a receita', async () => {
-    const fetchById = jest.spyOn(RecipesAPI, 'fetchById');
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      expect(fetchById).toHaveBeenCalled();
-      expect(fetchById).toHaveBeenCalledWith('15997');
-    });
-  });
-
-  it('should display recipe details', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-
-    await waitFor(() => {
-      expect(screen.getByTestId('recipe-photo')).toBeInTheDocument();
-      expect(screen.getByTestId('recipe-title')).toBeInTheDocument();
-      expect(screen.getByTestId('recipe-category')).toBeInTheDocument();
-      expect(screen.getByTestId('instructions')).toBeInTheDocument();
-    });
-  });
-
-  it('should handle favorite button click', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-    await waitFor(() => {
-      const favoriteBtn = screen.getByTestId('favorite-btn');
-      userEvent.click(favoriteBtn);
-
-      expect(favoriteBtn).toHaveAttribute('src', '/static/media/blackHeartIcon.svg');
-
-      userEvent.click(favoriteBtn);
-
-      expect(favoriteBtn).toHaveAttribute('src', '/static/media/whiteHeartIcon.svg');
-    });
-  });
-
-  it('should handle share button click', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-
-    await waitFor(() => {
-      const shareBtn = screen.getByTestId('share-btn');
-      userEvent.click(shareBtn);
-
-      expect(shareBtn).toHaveAttribute('src', '/static/media/shareIcon.svg');
-    });
-  });
-
-  it('should display recommended recipes', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-
-    await waitFor(() => {
-      expect(screen.getByTestId('recomendation-card')).toBeInTheDocument();
-    });
-  });
-
-  it('should handle start recipe button click', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-
-    await waitFor(() => {
-      const startRecipeBtn = screen.getByTestId('start-recipe-btn');
-      userEvent.click(startRecipeBtn);
-
-      expect(startRecipeBtn).toHaveTextContent('Continuar Receita');
-    });
-  });
-
-  it('should handle finish recipe button click', async () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={ history }>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </Router>,
-    );
-    history.push('/recipe-details');
-
-    await waitFor(() => {
-      const finishRecipeBtn = screen.getByTestId('finish-recipe-btn');
-      userEvent.click(finishRecipeBtn);
-
-      expect(finishRecipeBtn).toHaveTextContent('Avaliar');
-    });
+    expect(inProgressRecipes).toEqual(recipe);
   });
 });

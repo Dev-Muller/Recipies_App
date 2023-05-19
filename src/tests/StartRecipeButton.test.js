@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Router } from 'react-router-dom';
@@ -6,6 +5,8 @@ import { Router } from 'react-router-dom';
 import App from '../App';
 
 describe('StartRecipeButton', () => {
+  const startRecipe = 'Start Recipe';
+
   const renderWithRouter = (component, initialRoute = '/') => {
     const history = createMemoryHistory({ initialEntries: [initialRoute] });
     return ({
@@ -16,7 +17,7 @@ describe('StartRecipeButton', () => {
   it('Verifica se o botão está renderizado corretamente', () => {
     renderWithRouter(<App />);
 
-    const startButton = screen.getByRole('button', { name: 'Start Recipe' });
+    const startButton = screen.getByRole('button', { name: startRecipe });
     expect(startButton).toBeInTheDocument();
   });
 
@@ -49,7 +50,7 @@ describe('StartRecipeButton', () => {
 
     renderWithRouter(<App />);
 
-    const startButton = screen.getByText('Start Recipe');
+    const startButton = screen.getByText(startRecipe);
     expect(startButton).toBeInTheDocument();
   });
 
@@ -62,7 +63,7 @@ describe('StartRecipeButton', () => {
 
     renderWithRouter(<App />);
 
-    const startButton = screen.getByText('Start Recipe');
+    const startButton = screen.getByText(startRecipe);
 
     fireEvent.click(startButton);
 

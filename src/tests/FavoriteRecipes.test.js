@@ -71,6 +71,8 @@ describe('Testa as funcionalidadea da página Favorite Recipes', () => {
   const mealsIdBtn = 'filter-by-meal-btn';
   const drinksIdBtn = 'filter-by-drink-btn';
 
+  const filterbtnSelected = 'filter-btn-selected';
+
   setLocalStorage('favoriteRecipes', recipes);
 
   it('Testa se os elementos da página são renderizados corretamente', async () => {
@@ -86,24 +88,23 @@ describe('Testa as funcionalidadea da página Favorite Recipes', () => {
 
     await waitFor(() => {
       userEvent.click(buttonAll);
-      // eslint-disable-next-line sonarjs/no-duplicate-string
-      expect(buttonAll).toHaveClass('filter-btn-selected');
-      expect(buttonMeals).not.toHaveClass('filter-btn-selected');
-      expect(buttonDrinks).not.toHaveClass('filter-btn-selected');
+      expect(buttonAll).toHaveClass(filterbtnSelected);
+      expect(buttonMeals).not.toHaveClass(filterbtnSelected);
+      expect(buttonDrinks).not.toHaveClass(filterbtnSelected);
     });
 
     await waitFor(() => {
       userEvent.click(buttonMeals);
-      expect(buttonAll).not.toHaveClass('filter-btn-selected');
-      expect(buttonMeals).toHaveClass('filter-btn-selected');
-      expect(buttonDrinks).not.toHaveClass('filter-btn-selected');
+      expect(buttonAll).not.toHaveClass(filterbtnSelected);
+      expect(buttonMeals).toHaveClass(filterbtnSelected);
+      expect(buttonDrinks).not.toHaveClass(filterbtnSelected);
     });
 
     await waitFor(() => {
       userEvent.click(buttonDrinks);
-      expect(buttonAll).not.toHaveClass('filter-btn-selected');
-      expect(buttonMeals).not.toHaveClass('filter-btn-selected');
-      expect(buttonDrinks).toHaveClass('filter-btn-selected');
+      expect(buttonAll).not.toHaveClass(filterbtnSelected);
+      expect(buttonMeals).not.toHaveClass(filterbtnSelected);
+      expect(buttonDrinks).toHaveClass(filterbtnSelected);
     });
   });
 

@@ -7,6 +7,8 @@ import App from '../App';
 import DoneRecipes from '../pages/doneRecipes/DoneRecipes';
 
 describe('Testa as funcionalidadea da página Done Recipes', () => {
+  const date = '07/03/2023';
+
   const setLocalStorage = (key, data) => {
     window.localStorage.setItem(key, JSON.stringify(data));
   };
@@ -99,10 +101,9 @@ describe('Testa as funcionalidadea da página Done Recipes', () => {
     expect(recipe2Category).toBeInTheDocument();
     expect(recipe3Category).toBeInTheDocument();
 
-    // eslint-disable-next-line sonarjs/no-duplicate-string
-    const recipe1Date = screen.getByText('07/03/2023');
-    const recipe2Date = screen.getByText('07/03/2023');
-    const recipe3Date = screen.getByText('07/03/2023');
+    const recipe1Date = screen.getByText(date);
+    const recipe2Date = screen.getByText(date);
+    const recipe3Date = screen.getByText(date);
     expect(recipe1Date).toBeInTheDocument();
     expect(recipe2Date).toBeInTheDocument();
     expect(recipe3Date).toBeInTheDocument();
@@ -126,7 +127,7 @@ describe('Testa as funcionalidadea da página Done Recipes', () => {
     expect(recipe1Img).toBeInTheDocument();
     const recipe1Category = screen.getByText('Side');
     expect(recipe1Category).toBeInTheDocument();
-    const recipe1Date = screen.getByText('07/03/2023');
+    const recipe1Date = screen.getByText(date);
     expect(recipe1Date).toBeInTheDocument();
     const recipe1Tags = screen.getByText('Soup');
     expect(recipe1Tags).toBeInTheDocument();
@@ -141,7 +142,7 @@ describe('Testa as funcionalidadea da página Done Recipes', () => {
     expect(recipe3Img).toBeInTheDocument();
     const recipe3Category = screen.getByText('Cocktail');
     expect(recipe3Category).toBeInTheDocument();
-    const recipe3Date = screen.getByText('07/03/2023');
+    const recipe3Date = screen.getByText(date);
     expect(recipe3Date).toBeInTheDocument();
     const recipe3Tags = screen.queryByText('Soup');
     expect(recipe3Tags).not.toBeInTheDocument();
